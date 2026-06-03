@@ -401,7 +401,11 @@
 
       <div class="code-container">
         <div class="code-header"><span class="lang">FILE: libconnection_factory.dart</span></div>
-        <pre><code>class ConnectionFactory {
+        <pre><code>// Nama   : M.ALGERIJA HERTYAZ PASLAM
+// Nim    : 251410021
+// Kelas  : SI2A
+
+class ConnectionFactory {
   final String id;
   final String dbName;
   final String host;
@@ -427,7 +431,7 @@
     for (var conn in connList) {
       if (conn.isReleased) {
         conn.isReleased = false;
-        print('🏔️ [Pool Hit] Reusing idle connection: ${conn.id} for $key');
+        print('🏔️ [Pool Hit] Menggunakan koneksi idle: ${conn.id} untuk $key');
         return conn;
       }
     }
@@ -437,7 +441,7 @@
       final newConnection = ConnectionFactory._(connIdentifier, dbName, host, port);
       newConnection.isReleased = false;
       connList.add(newConnection);
-      print('🌲 [Pool Miss] Created new connection: $connIdentifier untuk $key');
+      print('🌲 [Pool Miss] Membuat koneksi baru: $connIdentifier untuk $key');
       return newConnection;
     }
 
@@ -446,18 +450,18 @@
 
   void query(String sql) {
     if (isReleased) {
-      throw StateError('🌿 Koneksi $id telah dilepas! Hubungkan kembali sebelum query.');
+      throw StateError('🍃 Koneksi $id telah dilepas! Hubungkan kembali sebelum query.');
     }
     print('🏔️ [$id] Menjalankan query: "$sql" pada database "$dbName" ($host:$port)');
   }
 
   static void release(ConnectionFactory conn) {
     if (conn.isReleased) {
-      print('⚠️ [Warning] Connection ${conn.id} already released!');
+      print('⚠️ [Peringatan] Koneksi ${conn.id} sudah dilepas!');
       return;
     }
     conn.isReleased = true;
-    print('🍃 [Pool Release] Connection ${conn.id} successfully returned to pool.');
+    print('🍃 [Pool Release] Koneksi ${conn.id} berhasil dikembalikan ke pool.');
   }
 
   static void printStatus(String dbName, {String host = 'localhost', int port = 5432}) {
@@ -475,7 +479,7 @@
         final status = conn.isReleased ? "IDLE / TERSEDIA 🍃" : "ACTIVE / SEDANG DIGUNAKAN 🏔️";
         print(' - ${conn.id}: [$status]');
       }
-      print('\nTotal koneksi: ${connList.length}/${maxConnections}');
+      print('\nTotal koneksi: ${connList.length}/$maxConnections');
     }
     print('=================================\n');
   }
@@ -487,7 +491,11 @@
 }
 
 void main() {
-  print('=== DEMO CONNECTION POOL ===\n');
+  print('╔══════════════════════════════════════════════════════════════╗');
+  print('║     DEMO CONNECTION POOL - M.ALGERIJA HERTYAZ PASLAM         ║');
+  print('║              NIM: 251410021 | Kelas: SI2A                    ║');
+  print('╚══════════════════════════════════════════════════════════════╝\n');
+  
   try {
     var conn1 = ConnectionFactory('testdb');
     conn1.query('SELECT * FROM users');
@@ -513,6 +521,13 @@ void main() {
   } catch (e) {
     print('\n❌ Error: $e');
   }
+  
+  print('\n══════════════════════════════════════════════════════════════');
+  print('📌 KESIMPULAN: Factory Constructor Connection Pooling');
+  print('   ✅ Membatasi maksimal $maxConnections koneksi aktif');
+  print('   ✅ Melakukan reuse koneksi idle untuk efisiensi memori');
+  print('   ✅ Mencegah resource leak dengan pengelolaan pool');
+  print('══════════════════════════════════════════════════════════════');
 }</code></pre>
       </div>
 
