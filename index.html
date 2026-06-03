@@ -4,23 +4,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tugas Sesi 10 - M.Algerija Hertyaz Paslam</title>
+  <title>Tugas Sesi 10 - M.ALGERIJA HERTYAZ PASLAM</title>
   <link
     href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;900&family=Fira+Code:wght@400;500&display=swap"
     rel="stylesheet">
   <style>
+    /* ===== TEMA CYBERPUNK EKSTRIM - BERBEDA JAUH ===== */
     :root {
-      /* TEMA GUNUNG: Nuansa bumi, hutan, dan kabut pegunungan */
-      --bg-color: #d9e2cc;
-      --card-bg: rgba(245, 240, 225, 0.85);
-      --accent-green: #2d5e2c;
-      --accent-moss: #4a6741;
-      --accent-earth: #8b5a2b;
-      --text-main: #2c3e2f;
-      --text-dim: #4a5b44;
-      --code-bg: #eff3e8;
-      --border-color: #b9b28a;
-      --shadow-color: rgba(45, 94, 44, 0.15);
+      --bg-color: #0a0c10;
+      --card-bg: rgba(12, 20, 28, 0.85);
+      --accent-primary: #00ff88;
+      --accent-secondary: #ff3366;
+      --accent-gold: #ffcc00;
+      --accent-glow: rgba(0, 255, 136, 0.3);
+      --text-main: #e0e0e0;
+      --text-dim: #8892b0;
+      --code-bg: #0d1117;
+      --border-color: #00ff88;
+      --danger: #ff3366;
     }
 
     * {
@@ -37,29 +38,49 @@
       line-height: 1.6;
       overflow-x: hidden;
       background-image: 
-        linear-gradient(145deg, #b7c9a2 0%, #d9e2cc 40%, #ecf0e6 100%),
-        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" opacity="0.1"><path fill="%233f5c3a" d="M0,600 L200,450 L350,520 L500,380 L650,480 L800,350 L950,420 L1100,300 L1200,360 L1200,800 L0,800 Z"/><path fill="%232d4a2b" d="M0,650 L180,520 L320,600 L480,450 L600,550 L780,430 L900,520 L1050,400 L1200,480 L1200,800 L0,800 Z"/><path fill="%231a361a" d="M0,720 L250,600 L400,680 L550,550 L700,650 L850,530 L1000,620 L1150,500 L1200,580 L1200,800 L0,800 Z"/></svg>');
-      background-repeat: no-repeat;
-      background-position: bottom;
-      background-size: cover;
+        repeating-linear-gradient(45deg, rgba(0, 255, 136, 0.03) 0px, rgba(0, 255, 136, 0.03) 2px, transparent 2px, transparent 8px),
+        radial-gradient(circle at 20% 30%, rgba(0, 255, 136, 0.08), transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(255, 51, 102, 0.05), transparent 50%);
+      background-attachment: fixed;
     }
 
-    .mist {
+    /* Efek grid futuristik */
+    .grid-overlay {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      z-index: -1;
+      z-index: 0;
       pointer-events: none;
-      background: radial-gradient(ellipse at 30% 50%, rgba(210, 225, 190, 0.3), transparent 70%);
-      animation: drift 40s linear infinite;
+      background-image: 
+        linear-gradient(rgba(0, 255, 136, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 136, 0.1) 1px, transparent 1px);
+      background-size: 50px 50px;
+      animation: gridMove 20s linear infinite;
     }
 
-    @keyframes drift {
-      0% { transform: translateX(-5%) translateY(0%); opacity: 0.4;}
-      50% { transform: translateX(5%) translateY(2%); opacity: 0.7;}
-      100% { transform: translateX(-5%) translateY(0%); opacity: 0.4;}
+    @keyframes gridMove {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(50px, 50px); }
+    }
+
+    /* Efek scanline */
+    .scanline {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+      background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.15) 0px,
+        rgba(0, 0, 0, 0.15) 2px,
+        transparent 2px,
+        transparent 6px
+      );
     }
 
     .container {
@@ -77,91 +98,107 @@
 
     .gerakan {
       font-weight: 900;
-      font-size: clamp(2rem, 6vw, 3.5rem);
+      font-size: clamp(1.8rem, 6vw, 3.2rem);
       text-transform: uppercase;
       margin-bottom: 10px;
       position: relative;
       display: inline-block;
-      background: linear-gradient(135deg, #2d5e2c, #6c8b4a);
+      background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary), var(--accent-gold));
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
+      letter-spacing: 3px;
+      text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+      animation: glitch 3s infinite;
+    }
+
+    @keyframes glitch {
+      0%, 100% { text-shadow: 0 0 20px rgba(0, 255, 136, 0.5); }
+      50% { text-shadow: -2px 0 var(--accent-secondary), 2px 0 var(--accent-primary); }
     }
 
     .info-bar {
       text-align: center;
       margin-bottom: 60px;
       font-weight: 600;
-      color: var(--accent-earth);
-      letter-spacing: 1px;
+      letter-spacing: 2px;
       text-transform: uppercase;
-      font-size: 0.95rem;
-      background: rgba(100, 70, 40, 0.1);
+      font-size: 0.9rem;
+      background: rgba(0, 255, 136, 0.1);
       display: inline-block;
-      padding: 8px 24px;
-      border-radius: 60px;
-      backdrop-filter: blur(4px);
+      padding: 12px 28px;
+      border-radius: 0px;
+      border-left: 3px solid var(--accent-primary);
+      border-right: 3px solid var(--accent-secondary);
+      backdrop-filter: blur(5px);
     }
 
     .info-bar b {
-      color: var(--accent-green);
+      color: var(--accent-primary);
       font-weight: 800;
     }
 
     .session-title {
       font-weight: 900;
       text-align: center;
-      color: var(--accent-green);
-      font-size: 1.8rem;
+      font-size: 1.6rem;
       margin-bottom: 80px;
-      letter-spacing: 2px;
+      letter-spacing: 4px;
       text-transform: uppercase;
-      border-bottom: 3px solid var(--border-color);
+      position: relative;
       padding-bottom: 20px;
-      display: inline-block;
-      width: auto;
-      background: rgba(255,250,225,0.5);
-      padding: 12px 30px;
-      border-radius: 60px;
-      backdrop-filter: blur(4px);
+    }
+
+    .session-title::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 25%;
+      width: 50%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent-primary), var(--accent-secondary), var(--accent-gold), transparent);
     }
 
     .session-title span {
-      color: var(--accent-earth);
+      background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
     }
 
     .cyber-card {
       background: var(--card-bg);
-      backdrop-filter: blur(12px);
-      border: 2px solid rgba(139, 90, 43, 0.3);
-      padding: 40px;
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(0, 255, 136, 0.3);
+      padding: 35px;
       margin-bottom: 50px;
-      border-radius: 48px 32px 48px 32px;
       position: relative;
       transition: all 0.3s ease;
-      box-shadow: 0 20px 30px var(--shadow-color);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      clip-path: polygon(0 0, 100% 0, 100% 95%, 95% 100%, 0 100%);
     }
 
     .cyber-card::before {
-      content: "🏔️";
+      content: "⚡";
       position: absolute;
-      top: -18px;
-      left: 30px;
-      font-size: 2rem;
-      filter: drop-shadow(0 4px 4px rgba(0,0,0,0.1));
+      top: -12px;
+      left: 25px;
+      font-size: 1.5rem;
+      color: var(--accent-primary);
+      text-shadow: 0 0 10px var(--accent-primary);
+      background: var(--bg-color);
+      padding: 0 8px;
     }
 
     .cyber-card:hover {
-      border-color: var(--accent-green);
-      transform: translateY(-4px);
-      box-shadow: 0 30px 40px rgba(45, 94, 44, 0.2);
-      background: rgba(250, 248, 235, 0.9);
+      border-color: var(--accent-primary);
+      transform: translateX(4px);
+      box-shadow: 0 15px 40px rgba(0, 255, 136, 0.2);
     }
 
     h3 {
       font-weight: 700;
-      font-size: 1.5rem;
-      color: var(--accent-green);
+      font-size: 1.4rem;
       margin-bottom: 25px;
       display: flex;
       align-items: center;
@@ -170,55 +207,56 @@
     }
 
     h3 span {
-      font-size: 0.85rem;
-      background: var(--accent-moss);
-      color: white;
-      padding: 3px 12px;
-      border-radius: 50px;
-      font-weight: 700;
+      font-size: 0.8rem;
+      background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+      color: #0a0c10;
+      padding: 4px 14px;
+      font-weight: 800;
+      clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%);
     }
 
     .badge {
-      font-size: 0.75rem;
-      padding: 3px 12px;
-      border-radius: 50px;
+      font-size: 0.7rem;
+      padding: 4px 14px;
       text-transform: uppercase;
       margin-left: auto;
-      letter-spacing: 1px;
+      letter-spacing: 1.5px;
       font-weight: bold;
-    }
-
-    .badge-dartpad {
-      background: rgba(45, 94, 44, 0.15);
-      color: var(--accent-green);
-      border: 1px solid var(--accent-green);
+      background: rgba(0, 255, 136, 0.15);
+      color: var(--accent-primary);
+      border: 1px solid var(--accent-primary);
+      clip-path: polygon(5% 0, 100% 0, 95% 100%, 0 100%);
     }
 
     p {
       color: var(--text-dim);
-      font-size: 0.98rem;
+      font-size: 0.95rem;
       margin-bottom: 25px;
       line-height: 1.8;
+    }
+
+    p strong, p code {
+      color: var(--accent-primary);
     }
 
     .code-container {
       margin: 30px 0;
       background: var(--code-bg);
-      border: 2px dashed var(--border-color);
-      border-radius: 25px;
+      border: 1px solid var(--accent-primary);
       overflow: hidden;
       width: 100%;
+      border-radius: 0;
     }
 
     .code-header {
-      background: #dadfcb;
-      padding: 12px 25px;
+      background: #0f151c;
+      padding: 12px 20px;
       font-weight: 700;
-      font-size: 0.8rem;
-      color: var(--accent-green);
-      border-bottom: 1px solid var(--border-color);
+      font-size: 0.75rem;
+      color: var(--accent-primary);
+      border-bottom: 1px solid var(--accent-primary);
       text-transform: uppercase;
-      letter-spacing: 1px;
+      letter-spacing: 1.5px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -227,55 +265,55 @@
     }
 
     .lang {
-      font-size: 0.8rem;
-      font-family: monospace;
+      font-size: 0.75rem;
+      font-family: 'Fira Code', monospace;
     }
 
     .btn {
       display: inline-flex;
       align-items: center;
-      padding: 8px 18px;
+      padding: 6px 16px;
       border: none;
-      border-radius: 50px;
-      background: linear-gradient(135deg, var(--accent-moss), var(--accent-green));
-      color: white;
+      background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+      color: #0a0c10;
       font-family: 'Poppins', sans-serif;
-      font-weight: 600;
-      font-size: 0.8rem;
+      font-weight: 700;
+      font-size: 0.75rem;
       cursor: pointer;
       transition: 0.3s;
-      box-shadow: 0 4px 10px rgba(45, 94, 44, 0.3);
       gap: 6px;
+      clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%);
+      text-transform: uppercase;
     }
 
     .btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(45, 94, 44, 0.5);
-      background: linear-gradient(135deg, #1f461e, var(--accent-moss));
+      transform: scale(1.02);
+      box-shadow: 0 0 15px var(--accent-primary);
+      letter-spacing: 1px;
     }
 
     pre {
-      padding: 25px;
+      padding: 20px;
       overflow-x: auto;
       font-family: 'Fira Code', monospace;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       line-height: 1.6;
-      color: #2c4027;
+      color: #a8ffcc;
+      background: #0d1117;
     }
 
     .footer {
       text-align: center;
       padding: 40px 20px;
-      color: var(--accent-earth);
       font-weight: 600;
-      font-size: 1rem;
+      font-size: 0.85rem;
       margin-top: 100px;
-      border-top: 2px solid var(--border-color);
-      background: rgba(225, 215, 185, 0.4);
-      backdrop-filter: blur(8px);
-      border-radius: 48px 48px 0 0;
+      border-top: 1px solid rgba(0, 255, 136, 0.3);
+      letter-spacing: 2px;
+      text-transform: uppercase;
     }
 
+    /* Modal Styles */
     .modal-overlay {
       display: none;
       position: fixed;
@@ -283,7 +321,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(46, 56, 38, 0.92);
+      background: rgba(10, 12, 16, 0.95);
       backdrop-filter: blur(12px);
       z-index: 10000;
       justify-content: center;
@@ -316,44 +354,100 @@
     .modal-body iframe {
       width: 100%;
       height: 100%;
-      border: 5px solid #8b7a54;
-      border-radius: 40px;
-      box-shadow: 0 0 50px rgba(60, 70, 40, 0.5);
+      border: 2px solid var(--accent-primary);
+      border-radius: 0;
+      box-shadow: 0 0 50px rgba(0, 255, 136, 0.3);
     }
 
     .close-modal {
       position: absolute;
       right: -10px;
-      top: -60px;
-      font-size: 45px;
-      color: #e3d6b5;
+      top: -55px;
+      font-size: 40px;
+      color: var(--accent-primary);
       cursor: pointer;
       z-index: 1001;
       font-weight: 900;
       background: transparent;
       border: none;
-      text-shadow: 0 2px 4px #2d2b1f;
+      transition: 0.2s;
     }
 
+    .close-modal:hover {
+      transform: scale(1.1);
+      text-shadow: 0 0 10px var(--accent-primary);
+    }
+
+    /* Media Queries */
     @media (max-width: 768px) {
-      .container { margin: 20px auto; padding: 0 10px; }
-      header { margin-bottom: 40px; }
-      .session-title { margin-bottom: 40px; font-size: 1.2rem; padding: 8px 20px; }
-      .cyber-card { padding: 20px; margin-bottom: 30px; border-radius: 30px; }
-      .cyber-card::before { font-size: 1.6rem; left: 20px; }
-      h3 { font-size: 1.2rem; }
-      .badge { margin-left: 0; }
-      .code-header { flex-direction: column; align-items: stretch; }
-      .btn { width: 100%; justify-content: center; }
-      pre { padding: 15px; font-size: 0.7rem; }
-      .modal-content { height: 75vh; width: 95%; }
-      .close-modal { top: -45px; right: 0px; font-size: 35px; }
+      .container {
+        margin: 20px auto;
+        padding: 0 10px;
+      }
+
+      header {
+        margin-bottom: 40px;
+      }
+
+      .session-title {
+        margin-bottom: 40px;
+        font-size: 1.2rem;
+      }
+
+      .cyber-card {
+        padding: 20px;
+        margin-bottom: 30px;
+      }
+
+      .cyber-card::before {
+        font-size: 1.2rem;
+        left: 15px;
+        top: -10px;
+      }
+
+      h3 {
+        font-size: 1.1rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+
+      .badge {
+        margin-left: 0;
+      }
+
+      .code-header {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .btn {
+        width: 100%;
+        justify-content: center;
+      }
+
+      pre {
+        padding: 12px;
+        font-size: 0.7rem;
+      }
+
+      .modal-content {
+        height: 75vh;
+        width: 95%;
+      }
+
+      .close-modal {
+        top: -40px;
+        right: 0px;
+        font-size: 32px;
+      }
     }
   </style>
 </head>
 
 <body>
-  <div class="mist"></div>
+  <div class="grid-overlay"></div>
+  <div class="scanline"></div>
   <div class="container">
     <header>
       <div class="gerakan">M.ALGERIJA HERTYAZ PASLAM</div>
@@ -361,22 +455,297 @@
       <h1 class="session-title">TUGAS SESI 10: <span>FACTORY CONSTRUCTORS</span></h1>
     </header>
 
-    <!-- LATIHAN 1 -->
     <div class="cyber-card">
-      <h3><span>01</span> LATIHAN 1: CONNECTION POOLING <div class="badge badge-dartpad">Dartpad</div>
+      <h3><span>01</span> LATIHAN 1: CONNECTION POOLING <div class="badge">Dartpad</div>
       </h3>
-      <p>Connection Pooling adalah teknik yang digunakan dalam pengembangan aplikasi (terutama yang berbasis database) untuk mengelola dan mengoptimalkan pembuatan serta penggunaan koneksi database. Teknik ini bekerja dengan menyimpan kumpulan koneksi database yang sudah dibuat sebelumnya di dalam sebuah "kolam" (pool), sehingga koneksi tersebut dapat digunakan ulang oleh berbagai permintaan dari aplikasi.</p>
+      <p>Menghemat alokasi memori melalui pola <strong>Database Connection Pooling</strong> menggunakan Factory Constructor. Jumlah
+        koneksi aktif dibatasi maksimal 3 koneksi, dan koneksi yang telah dilepas (<em>idle</em>) akan secara otomatis
+        dimanfaatkan kembali.</p>
+
+      <div class="code-container">
+        <div class="code-header"><span class="lang">FILE: libconnection_factory.dart</span></div>
+        <pre><code>// Nama   : M.ALGERIJA HERTYAZ PASLAM
+// Nim    : 251410021
+// Kelas  : SI2A
+
+class ConnectionFactory {
+  final String id;
+  final String dbName;
+  final String host;
+  final int port;
+  bool isReleased = true;
+
+  static const int maxConnections = 3;
+  static final Map&lt;String, List&lt;ConnectionFactory&gt;&gt; _poolRegistry = {};
+
+  ConnectionFactory._(this.id, this.dbName, this.host, this.port);
+
+  factory ConnectionFactory(String dbName, {String host = 'localhost', int port = 5432}) {
+    final key = '${dbName.toLowerCase()}@$host:$port';
+    
+    if (!_poolRegistry.containsKey(key)) {
+      _poolRegistry[key] = [];
+    }
+
+    final connList = _poolRegistry[key]!;
+
+    for (var activeConn in connList) {
+      if (activeConn.isReleased) {
+        activeConn.isReleased = false;
+        print('⚡ [Pool Hit] Reusing idle connection: ${activeConn.id} for $key');
+        return activeConn;
+      }
+    }
+
+    if (connList.length &lt; maxConnections) {
+      final connIdentifier = 'conn_${dbName.toLowerCase()}_${connList.length + 1}';
+      final freshConnection = ConnectionFactory._(connIdentifier, dbName, host, port);
+      freshConnection.isReleased = false;
+      connList.add(freshConnection);
+      print('🔥 [Pool Miss] Created new connection: $connIdentifier untuk $key');
+      return freshConnection;
+    }
+
+    throw StateError('⚠️ Batas maksimum koneksi database tercapai ($maxConnections) untuk pool $key! ⚡');
+  }
+
+  void query(String sql) {
+    if (isReleased) {
+      throw StateError('🔥 Koneksi $id telah dilepas! Hubungkan kembali sebelum query. ⚡');
+    }
+    print('⚡ [$id] Menjalankan query: "$sql" pada database "$dbName" ($host:$port)');
+  }
+
+  static void release(ConnectionFactory conn) {
+    conn.isReleased = true;
+    print('🔻 [Pool Release] Connection ${conn.id} successfully returned to pool.');
+  }
+
+  static void printStatus(String dbName, {String host = 'localhost', int port = 5432}) {
+    final key = '${dbName.toLowerCase()}@$host:$port';
+    final connList = _poolRegistry[key];
+    print('⚡ STATUS POOL KONEKSI ($key) ⚡');
+    if (connList == null || connList.isEmpty) {
+      print('Belum ada koneksi yang terdaftar.');
+    } else {
+      for (var activeConn in connList) {
+        print(' - ${activeConn.id}: [${activeConn.isReleased ? "IDLE / TERSEDIA 🔻" : "ACTIVE / SEDANG DIGUNAKAN ⚡"}]');
+      }
+    }
+    print('=================================');
+  }
+
+  @override
+  String toString() {
+    return 'ConnectionFactory(id: $id, database: $dbName, host: $host, port: $port, status: ${isReleased ? "Idle" : "Active"})';
+  }
+}</code></pre>
+      </div>
 
       <div class="code-container" id="code-connection-factory">
         <div class="code-header">
-          <span class="lang">FILE: libconnection_factory.dart + test_connection_factory.dart</span>
-          <button class="btn" onclick="runCodeFromText('connectionCode')">▶ Run</button>
+          <span class="lang">FILE: test_connection_factory.dart</span>
+          <button class="btn" onclick="runCode('code-connection-factory', 'fdab36c1d70e25a4ff3c8e903f52316c')">▶ RUN</button>
         </div>
-        <pre id="connectionCode"><code>// Nama   : M. ALGERIJA HERTYAZ PASLAM
+        <pre><code>// Nama   : M.ALGERIJA HERTYAZ PASLAM
 // Nim    : 251410021
-// Kelas  : SIA2
+// Kelas  : SI2A
 
-import 'dart:math' as math;
+import 'libconnection_factory.dart';
+
+void main() {
+  print('🔥 DEMO SISTEM POOL KONEKSI - M.ALGERIJA 🔥\\n');
+
+  final dbName = 'pos_system';
+
+  print('⚡ [Koneksi 1] Alokasikan Koneksi Baru ⚡');
+  final dbConn1 = ConnectionFactory(dbName);
+  dbConn1.query('SELECT * FROM users');
+  print('');
+
+  print('⚡ [Koneksi 2] Alokasikan Koneksi Baru ⚡');
+  final dbConn2 = ConnectionFactory(dbName);
+  dbConn2.query('SELECT * FROM products');
+  print('');
+
+  ConnectionFactory.printStatus(dbName);
+  print('');
+
+  print('🔻 Kembalikan Koneksi 1 ke Pool 🔻');
+  ConnectionFactory.release(dbConn1);
+  print('');
+
+  ConnectionFactory.printStatus(dbName);
+  print('');
+
+  print('⚡ [Koneksi 3] Reuse Koneksi yang Idle ⚡');
+  final dbConn3 = ConnectionFactory(dbName);
+  dbConn3.query('UPDATE stock SET quantity = 100 WHERE id = 1');
+  print('Apakah dbConn1 identik dengan dbConn3? \${identical(dbConn1, dbConn3)}');
+  print('');
+
+  print('⚡ [Koneksi 4] Alokasikan Koneksi Baru ⚡');
+  final dbConn4 = ConnectionFactory(dbName);
+  dbConn4.query('INSERT INTO transaction_history VALUES (1, 50000)');
+  print('');
+
+  ConnectionFactory.printStatus(dbName);
+  print('');
+
+  print('⚠️ Uji Batas Maksimum Koneksi (Ekspektasi Error) ⚠️');
+  try {
+    final dbConn5 = ConnectionFactory(dbName);
+    dbConn5.query('SELECT * FROM audit_logs');
+  } catch (e) {
+    print('ERROR DITANGKAP: \$e');
+  }
+}</code></pre>
+      </div>
+    </div>
+
+    <div class="cyber-card">
+      <h3><span>02</span> LATIHAN 2: PLATFORM NOTIFICATION SELECTOR <div class="badge">Dartpad</div>
+      </h3>
+      <p>Menerapkan <strong>Subclass Selection</strong> melalui Factory Constructor. Klien memanggil satu interface terpadu,
+        sedangkan factory constructor secara dinamis mengembalikan instansi subclass yang spesifik (FCM, APNS, WebPush,
+        atau WNS) sesuai platform target.</p>
+
+      <div class="code-container">
+        <div class="code-header"><span class="lang">FILE: libnotification_factory.dart</span></div>
+        <pre><code>// Nama   : M.ALGERIJA HERTYAZ PASLAM
+// Nim    : 251410021
+// Kelas  : SI2A
+
+abstract class NotificationFactory {
+  String get message;
+  void send();
+
+  factory NotificationFactory(String platform, String message) {
+    switch (platform.toLowerCase()) {
+      case 'android':
+        return AndroidNotification(message);
+      case 'ios':
+        return IOSNotification(message);
+      case 'web':
+        return WebNotification(message);
+      case 'windows':
+        return WindowsNotification(message);
+      default:
+        throw ArgumentError('⚠️ Platform tidak didukung: "$platform"! Silakan pilih android, ios, web, atau windows. ⚡');
+    }
+  }
+}
+
+class AndroidNotification implements NotificationFactory {
+  @override
+  final String message;
+
+  AndroidNotification(this.message);
+
+  @override
+  void send() {
+    print('🤖 [Android FCM] Dispatching notification to device:');
+    print('   📨 Message payload: "$message"');
+  }
+}
+
+class IOSNotification implements NotificationFactory {
+  @override
+  final String message;
+
+  IOSNotification(this.message);
+
+  @override
+  void send() {
+    print('🍎 [iOS APNs] Delivering push notification:');
+    print('   📨 Message payload: "$message"');
+  }
+}
+
+class WebNotification implements NotificationFactory {
+  @override
+  final String message;
+
+  WebNotification(this.message);
+
+  @override
+  void send() {
+    print('🌐 [Web Push] Broadcasting service worker alert:');
+    print('   📨 Message payload: "$message"');
+  }
+}
+
+class WindowsNotification implements NotificationFactory {
+  @override
+  final String message;
+
+  WindowsNotification(this.message);
+
+  @override
+  void send() {
+    print('🖥️ [Windows WNS] Triggering desktop toast:');
+    print('   📨 Message payload: "$message"');
+  }
+}</code></pre>
+      </div>
+
+      <div class="code-container" id="code-notification-factory">
+        <div class="code-header">
+          <span class="lang">FILE: test_notification_factory.dart</span>
+          <button class="btn" onclick="runCode('code-notification-factory', '428e7f7145a1d2a4ac3efe5a1ec98f5d')">▶ RUN</button>
+        </div>
+        <pre><code>// Nama   : M.ALGERIJA HERTYAZ PASLAM
+// Nim    : 251410021
+// Kelas  : SI2A
+
+import 'libnotification_factory.dart';
+
+void main() {
+  print('🔥 DEMO PLATFORM NOTIFIKASI - M.ALGERIJA 🔥\\n');
+
+  print('🤖 Kirim Notif ke Perangkat Android 🤖');
+  final androidAlert = NotificationFactory('android', 'Diskon belanja 50% untuk Anda!');
+  androidAlert.send();
+  print('Tipe Instansi: \${androidAlert.runtimeType}\\n');
+
+  print('🍎 Kirim Notif ke Perangkat iOS 🍎');
+  final iosAlert = NotificationFactory('ios', 'Pembayaran langganan bulanan berhasil.');
+  iosAlert.send();
+  print('Tipe Instansi: \${iosAlert.runtimeType}\\n');
+
+  print('🌐 Kirim Notif ke Browser Web 🌐');
+  final webAlert = NotificationFactory('web', 'Ada pesan baru masuk ke kotak masuk Anda.');
+  webAlert.send();
+  print('Tipe Instansi: \${webAlert.runtimeType}\\n');
+
+  print('🖥️ Kirim Notif ke Desktop Windows 🖥️');
+  final windowsAlert = NotificationFactory('windows', 'Update aplikasi tersedia. Mulai ulang sekarang.');
+  windowsAlert.send();
+  print('Tipe Instansi: \${windowsAlert.runtimeType}\\n');
+
+  print('⚠️ Uji Penanganan Platform Tidak Valid (Ekspektasi Error) ⚠️');
+  try {
+    final invalidAlert = NotificationFactory('linux', 'Ini tidak akan terkirim.');
+    invalidAlert.send();
+  } catch (e) {
+    print('ERROR DITANGKAP: \$e');
+  }
+}</code></pre>
+      </div>
+    </div>
+
+    <div class="cyber-card">
+      <h3><span>03</span> LATIHAN 3: SHAPE CACHING <div class="badge">Dartpad</div>
+      </h3>
+      <p>Menerapkan konsep <strong>Flyweight Pattern</strong> melalui caching bentuk (<em>shape</em>). Apabila dipanggil instansi bentuk
+        dengan tipe, ukuran, dan warna yang sama persis, sistem akan mengambil instansi yang sudah ada secara instan
+        dari cache statis internal.</p>
+
+      <div class="code-container">
+        <div class="code-header"><span class="lang">FILE: libshape_factory.dart</span></div>
+        <pre><code>// Nama   : M.ALGERIJA HERTYAZ PASLAM
+// Nim    : 251410021
+// Kelas  : SI2A
 
 abstract class ShapeFactory {
   String get type;
@@ -384,24 +753,24 @@ abstract class ShapeFactory {
   String get color;
   void draw();
 
-  static final Map<String, ShapeFactory> _flyweightRegistry = {};
+  static final Map&lt;String, ShapeFactory&gt; _flyweightRegistry = {};
 
   factory ShapeFactory(String type, double size, String color) {
-    if (size <= 0) {
-      throw ArgumentError('💫 Ukuran bentuk (size) harus lebih besar dari 0! 🦋');
+    if (size &lt;= 0) {
+      throw ArgumentError('⚠️ Ukuran bentuk (size) harus lebih besar dari 0! ⚡');
     }
     if (color.trim().isEmpty) {
-      throw ArgumentError('💫 Warna bentuk tidak boleh kosong! 🦋');
+      throw ArgumentError('⚠️ Warna bentuk tidak boleh kosong! ⚡');
     }
 
     final key = 'shape:${type.toLowerCase()}:${color.trim().toLowerCase()}:$size';
 
     if (_flyweightRegistry.containsKey(key)) {
-      print('💫 [Cache Hit] Reusing existing Shape instance: $key');
+      print('⚡ [Cache Hit] Reusing existing Shape instance: $key');
       return _flyweightRegistry[key]!;
     }
 
-    print('🦋 [Cache Miss] Creating new Shape instance for: $key');
+    print('🔥 [Cache Miss] Creating new Shape instance for: $key');
     ShapeFactory shapeInstance;
     switch (type.toLowerCase()) {
       case 'circle':
@@ -414,18 +783,18 @@ abstract class ShapeFactory {
         shapeInstance = TriangleShape._(size, color);
         break;
       default:
-        throw ArgumentError('💫 Tipe bentuk "$type" tidak didukung! Pilih circle, square, atau triangle. 🦋');
+        throw ArgumentError('⚠️ Tipe bentuk "$type" tidak didukung! Pilih circle, square, atau triangle. ⚡');
     }
 
     _flyweightRegistry[key] = shapeInstance;
     return shapeInstance;
   }
 
-  static int get cacheSize => _flyweightRegistry.length;
+  static int get cacheSize =&gt; _flyweightRegistry.length;
 
   static void clearCache() {
     _flyweightRegistry.clear();
-    print('🔸 [Cache Clear] Shape cache successfully cleared.');
+    print('🔻 [Cache Clear] Shape cache successfully cleared.');
   }
 }
 
@@ -475,319 +844,86 @@ class TriangleShape implements ShapeFactory {
   void draw() {
     print('🔺 [Drawing] Triangle (dimension: $size, color: $color)');
   }
-}
+}</code></pre>
+      </div>
+
+      <div class="code-container" id="code-shape-factory">
+        <div class="code-header">
+          <span class="lang">FILE: test_shape_factory.dart</span>
+          <button class="btn" onclick="runCode('code-shape-factory', '028898dc60b97c520feb8e06e53e0c6c')">▶ RUN</button>
+        </div>
+        <pre><code>// Nama   : M.ALGERIJA HERTYAZ PASLAM
+// Nim    : 251410021
+// Kelas  : SI2A
+
+import 'libshape_factory.dart';
 
 void main() {
-  print('📌 DEMO SHAPE FACTORY & CACHING - ALGERIJA📌');
-  print('================================================\n');
+  print('🔥 DEMO SHAPE FACTORY & CACHING - M.ALGERIJA 🔥\\n');
 
-  print('🔹 [Shape 1] Buat Lingkaran Biru R=10.0 🔹');
+  print('🔵 [Shape 1] Buat Lingkaran Biru R=10.0 🔵');
   final shape1 = ShapeFactory('circle', 10.0, 'Biru');
   shape1.draw();
-  print('Ukuran Cache saat ini: ${ShapeFactory.cacheSize}\n');
+  print('Ukuran Cache saat ini: \${ShapeFactory.cacheSize}\\n');
 
-  print('🔹 [Shape 2] Buat Ulang Lingkaran Biru R=10.0 (Harus Cache Hit) 🔹');
+  print('🔵 [Shape 2] Buat Ulang Lingkaran Biru R=10.0 (Harus Cache Hit) 🔵');
   final shape2 = ShapeFactory('circle', 10.0, 'Biru');
   shape2.draw();
-  print('Ukuran Cache saat ini: ${ShapeFactory.cacheSize}');
-  print('Apakah Shape 1 identik dengan Shape 2? ${identical(shape1, shape2)}');
+  print('Ukuran Cache saat ini: \${ShapeFactory.cacheSize}');
+  print('Apakah Shape 1 identik dengan Shape 2? \${identical(shape1, shape2)}');
   print('');
 
-  print('🔹 [Shape 3] Buat Persegi Merah S=20.0 🔹');
+  print('🟩 [Shape 3] Buat Persegi Merah S=20.0 🟩');
   final shape3 = ShapeFactory('square', 20.0, 'Merah');
   shape3.draw();
-  print('Ukuran Cache saat ini: ${ShapeFactory.cacheSize}\n');
+  print('Ukuran Cache saat ini: \${ShapeFactory.cacheSize}\\n');
 
-  print('🔹 [Shape 4] Buat Lingkaran Merah R=10.0 🔹');
+  print('🔴 [Shape 4] Buat Lingkaran Merah R=10.0 🔴');
   final shape4 = ShapeFactory('circle', 10.0, 'Merah');
   shape4.draw();
-  print('Ukuran Cache saat ini: ${ShapeFactory.cacheSize}');
-  print('Apakah Shape 1 identik dengan Shape 4? ${identical(shape1, shape4)}');
+  print('Ukuran Cache saat ini: \${ShapeFactory.cacheSize}');
+  print('Apakah Shape 1 identik dengan Shape 4? \${identical(shape1, shape4)}');
   print('');
 
-  print('🔸 Uji Input Ukuran Negatif (Ekspektasi Error) 🔸');
+  print('⚠️ Uji Input Ukuran Negatif (Ekspektasi Error) ⚠️');
   try {
     final invalidShape = ShapeFactory('triangle', -5.0, 'Hijau');
     invalidShape.draw();
   } catch (e) {
-    print('ERROR DITANGKAP: $e');
+    print('ERROR DITANGKAP: \$e');
   }
   print('');
 
-  print('🔸 Uji Input Warna Kosong (Ekspektasi Error) 🔸');
+  print('⚠️ Uji Input Warna Kosong (Ekspektasi Error) ⚠️');
   try {
     final invalidColorShape = ShapeFactory('triangle', 12.0, '');
     invalidColorShape.draw();
   } catch (e) {
-    print('ERROR DITANGKAP: $e');
+    print('ERROR DITANGKAP: \$e');
   }
   print('');
 
-  print('🔸 Uji Input Tipe Bentuk Tidak Valid (Ekspektasi Error) 🔸');
+  print('⚠️ Uji Input Tipe Bentuk Tidak Valid (Ekspektasi Error) ⚠️');
   try {
     final invalidTypeShape = ShapeFactory('pentagon', 15.0, 'Kuning');
     invalidTypeShape.draw();
   } catch (e) {
-    print('ERROR DITANGKAP: $e');
+    print('ERROR DITANGKAP: \$e');
   }
-  print('');
-
-  print('================================================');
-  print('📌 DEMO SELESAI 📌');
 }</code></pre>
       </div>
     </div>
 
-    <!-- LATIHAN 2 -->
     <div class="cyber-card">
-      <h3><span>02</span> LATIHAN 2: PLATFORM NOTIFICATION SELECTOR <div class="badge badge-dartpad">Dartpad</div>
+      <h3><span>04</span> CHALLENGE: ANIMAL FACTORY <div class="badge">Challenge</div>
       </h3>
-      <p>Subclass Selection adalah proses menentukan atau memilih subclass mana yang akan diinstansiasi (dibuat objeknya) pada saat runtime, berdasarkan kondisi atau parameter tertentu. Pola ini sering muncul ketika superclass memiliki beberapa subclass turunan, dan aplikasi harus secara dinamis memilih salah satu yang sesuai dengan kebutuhan.</p>
+      <p>Mengintegrasikan konsep-konsep Factory Constructor ke dalam sebuah model <code>AnimalFactory</code> kompleks yang
+        mengutamakan validasi parameter masukan ketat (nama kosong, umur negatif), Subclass Selection dinamis, serta
+        caching multi-properti statis.</p>
 
-      <div class="code-container" id="code-notification-factory">
-        <div class="code-header">
-          <span class="lang">FILE: libnotification_factory.dart + test_notification_factory.dart</span>
-          <button class="btn" onclick="runCodeFromText('notificationCode')">▶ Run</button>
-        </div>
-        <pre id="notificationCode"><code>// Nama   : M.ALGERIJA HERTYAZ PASLAM
-// Nim    : 251410021
-// Kelas  : SI2A
-
-abstract class NotificationFactory {
-  String get message;
-  void send();
-
-  factory NotificationFactory(String platform, String message) {
-    switch (platform.toLowerCase()) {
-      case 'android':
-        return AndroidNotification(message);
-      case 'ios':
-        return IOSNotification(message);
-      case 'web':
-        return WebNotification(message);
-      case 'windows':
-        return WindowsNotification(message);
-      default:
-        throw ArgumentError('⛰️ Platform tidak didukung: "$platform"! Pilih android, ios, web, atau windows.');
-    }
-  }
-}
-
-class AndroidNotification implements NotificationFactory {
-  @override
-  final String message;
-  AndroidNotification(this.message);
-  @override
-  void send() {
-    print('📱 [Android FCM] Mengirim notifikasi gunung:');
-    print('   💌 Pesan: "$message"');
-  }
-}
-
-class IOSNotification implements NotificationFactory {
-  @override
-  final String message;
-  IOSNotification(this.message);
-  @override
-  void send() {
-    print('🍏 [iOS APNs] Notifikasi puncak:');
-    print('   💌 Pesan: "$message"');
-  }
-}
-
-class WebNotification implements NotificationFactory {
-  @override
-  final String message;
-  WebNotification(this.message);
-  @override
-  void send() {
-    print('🌐 [Web Push] Kabut digital membawa pesan:');
-    print('   💌 Pesan: "$message"');
-  }
-}
-
-class WindowsNotification implements NotificationFactory {
-  @override
-  final String message;
-  WindowsNotification(this.message);
-  @override
-  void send() {
-    print('🪟 [Windows WNS] Toast di desktop:');
-    print('   💌 Pesan: "$message"');
-  }
-}
-
-void main() {
-  print('╔══════════════════════════════════════════════════════════════╗');
-  print('║   DEMO NOTIFIKASI PLATFORM - M.ALGERIJA HERTYAZ PASLAM       ║');
-  print('║              NIM: 251410021 | Kelas: SI2A                    ║');
-  print('╚══════════════════════════════════════════════════════════════╝\n');
-
-  print('🔹 Notifikasi ke Android 🔹');
-  final androidAlert = NotificationFactory('android', 'Awas longsor! Periksa jalur pendakian.');
-  androidAlert.send();
-  print('Tipe: \${androidAlert.runtimeType}\n');
-
-  print('🔹 Notifikasi ke iOS 🔹');
-  final iosAlert = NotificationFactory('ios', 'Cuaca membaik di puncak.');
-  iosAlert.send();
-  print('Tipe: \${iosAlert.runtimeType}\n');
-
-  print('🔹 Notifikasi ke Web 🔹');
-  final webAlert = NotificationFactory('web', 'Grup pendaki: jadwal briefing jam 5 sore.');
-  webAlert.send();
-  print('Tipe: \${webAlert.runtimeType}\n');
-
-  print('🔹 Notifikasi ke Windows 🔹');
-  final windowsAlert = NotificationFactory('windows', 'Update aplikasi peta topografi.');
-  windowsAlert.send();
-  print('Tipe: \${windowsAlert.runtimeType}\n');
-
-  print('🔸 Uji Platform Tidak Valid 🔸');
-  try {
-    final invalidAlert = NotificationFactory('linux', 'gagal');
-    invalidAlert.send();
-  } catch (e) {
-    print('✅ ERROR BERHASIL DITANGKAP: \$e');
-  }
-  
-  print('\n══════════════════════════════════════════════════════════════');
-  print('📌 KESIMPULAN: Factory Constructor - Subclass Selection');
-  print('   ✅ Memilih subclass secara dinamis berdasarkan parameter');
-  print('   ✅ Menyembunyikan kompleksitas pembuatan objek');
-  print('   ✅ Meningkatkan fleksibilitas dan pemeliharaan kode');
-  print('══════════════════════════════════════════════════════════════');
-}</code></pre>
-      </div>
-    </div>
-
-    <!-- LATIHAN 3 -->
-    <div class="cyber-card">
-      <h3><span>03</span> LATIHAN 3: SHAPE CACHING (FLYWEIGHT) <div class="badge badge-dartpad">Dartpad</div>
-      </h3>
-      <p>Flyweight Pattern adalah pola desain struktural yang bertujuan untuk meminimalkan penggunaan memori dengan cara berbagi (sharing) data sebanyak mungkin antar objek yang serupa. Pola ini sangat berguna ketika Anda perlu membuat banyak objek dalam jumlah sangat besar, tetapi hanya sedikit variasi data di antara mereka.</p>
-
-      <div class="code-container" id="code-shape-factory">
-        <div class="code-header">
-          <span class="lang">FILE: libshape_factory.dart + test_shape_factory.dart</span>
-          <button class="btn" onclick="runCodeFromText('shapeCode')">▶ Run</button>
-        </div>
-        <pre id="shapeCode"><code>// Nama   : M.ALGERIJA HERTYAZ PASLAM
-// Nim    : 251410021
-// Kelas  : SI2A
-
-abstract class ShapeFactory {
-  String get type;
-  double get size;
-  String get color;
-  void draw();
-
-  static final Map<String, ShapeFactory> _flyweightRegistry = {};
-
-  factory ShapeFactory(String type, double size, String color) {
-    if (size <= 0) throw ArgumentError('Ukuran harus > 0!');
-    if (color.trim().isEmpty) throw ArgumentError('Warna tidak boleh kosong');
-    final key = 'shape:${type.toLowerCase()}:${color.trim().toLowerCase()}:$size';
-    if (_flyweightRegistry.containsKey(key)) {
-      print('🏔️ [Cache Hit] Menggunakan ulang bentuk: $key');
-      return _flyweightRegistry[key]!;
-    }
-    print('🌲 [Cache Miss] Membuat bentuk baru: $key');
-    ShapeFactory shape;
-    switch (type.toLowerCase()) {
-      case 'circle': shape = CircleShape._(size, color); break;
-      case 'square': shape = SquareShape._(size, color); break;
-      case 'triangle': shape = TriangleShape._(size, color); break;
-      default: throw ArgumentError('Tipe tidak didukung');
-    }
-    _flyweightRegistry[key] = shape;
-    return shape;
-  }
-  static int get cacheSize => _flyweightRegistry.length;
-  static void clearCache() => _flyweightRegistry.clear();
-}
-
-class CircleShape implements ShapeFactory {
-  @override final String type = 'Circle';
-  @override final double size;
-  @override final String color;
-  CircleShape._(this.size, this.color);
-  @override void draw() => print('🔵 Lingkaran (radius: $size, warna: $color)');
-}
-
-class SquareShape implements ShapeFactory {
-  @override final String type = 'Square';
-  @override final double size;
-  @override final String color;
-  SquareShape._(this.size, this.color);
-  @override void draw() => print('🟩 Persegi (sisi: $size, warna: $color)');
-}
-
-class TriangleShape implements ShapeFactory {
-  @override final String type = 'Triangle';
-  @override final double size;
-  @override final String color;
-  TriangleShape._(this.size, this.color);
-  @override void draw() => print('🔺 Segitiga (dimensi: $size, warna: $color)');
-}
-
-void main() {
-  print('╔══════════════════════════════════════════════════════════════╗');
-  print('║      DEMO SHAPE CACHING - M.ALGERIJA HERTYAZ PASLAM          ║');
-  print('║              NIM: 251410021 | Kelas: SI2A                    ║');
-  print('╚══════════════════════════════════════════════════════════════╝\n');
-
-  print('🔹 Membuat Lingkaran Hijau (R=10) 🔹');
-  final shape1 = ShapeFactory('circle', 10.0, 'Hijau Gunung');
-  shape1.draw();
-  print('Ukuran cache: ${ShapeFactory.cacheSize}\n');
-
-  print('🔹 Membuat Lingkaran Hijau Lagi (Harus Cache Hit) 🔹');
-  final shape2 = ShapeFactory('circle', 10.0, 'Hijau Gunung');
-  shape2.draw();
-  print('Apakah shape1 dan shape2 identik? ${identical(shape1, shape2)}');
-  print('Ukuran cache: ${ShapeFactory.cacheSize}\n');
-
-  print('🔹 Membuat Persegi Tanah (S=15) 🔹');
-  final shape3 = ShapeFactory('square', 15.0, 'Tanah');
-  shape3.draw();
-  print('Ukuran cache: ${ShapeFactory.cacheSize}\n');
-
-  print('🔹 Membuat Segitiga Merah (S=12) 🔹');
-  final shape4 = ShapeFactory('triangle', 12.0, 'Merah');
-  shape4.draw();
-  print('Ukuran cache: ${ShapeFactory.cacheSize}\n');
-
-  print('🔸 Uji Input Ukuran Negatif 🔸');
-  try {
-    final invalidShape = ShapeFactory('circle', -5.0, 'Biru');
-    invalidShape.draw();
-  } catch (e) {
-    print('✅ ERROR DITANGKAP: \$e');
-  }
-  
-  print('\n══════════════════════════════════════════════════════════════');
-  print('📌 KESIMPULAN: Flyweight Pattern dengan Factory Constructor');
-  print('   ✅ Menghindari duplikasi objek identik');
-  print('   ✅ Menghemat memori secara signifikan');
-  print('   ✅ Mempercepat eksekusi program');
-  print('══════════════════════════════════════════════════════════════');
-}</code></pre>
-      </div>
-    </div>
-
-    <!-- CHALLENGE -->
-    <div class="cyber-card">
-      <h3><span>04</span> CHALLENGE: ANIMAL FACTORY <div class="badge badge-dartpad">Challenge</div>
-      </h3>
-      <p>Factory Constructor adalah metode (biasanya static method atau method khusus) di dalam kelas factory yang bertanggung jawab untuk membuat dan mengembalikan instance dari berbagai subclass berdasarkan parameter input. Di sini, AnimalFactory bertindak sebagai "pabrik" yang memproduksi berbagai jenis hewan.</p>
-
-      <div class="code-container" id="code-animal-factory">
-        <div class="code-header">
-          <span class="lang">FILE: libanimal_factory.dart + test_animal_factory.dart</span>
-          <button class="btn" onclick="runCodeFromText('animalCode')">▶ Run</button>
-        </div>
-        <pre id="animalCode"><code>// Nama   : M.ALGERIJA HERTYAZ PASLAM
+      <div class="code-container">
+        <div class="code-header"><span class="lang">FILE: libanimal_factory.dart</span></div>
+        <pre><code>// Nama   : M.ALGERIJA HERTYAZ PASLAM
 // Nim    : 251410021
 // Kelas  : SI2A
 
@@ -796,125 +932,175 @@ abstract class AnimalFactory {
   int get age;
   String get sound;
   void speak();
-  
-  static final Map<String, AnimalFactory> _animalRegistry = {};
+
+  static final Map&lt;String, AnimalFactory&gt; _animalRegistry = {};
 
   factory AnimalFactory(String type, String name, int age) {
-    if (name.trim().isEmpty) throw ArgumentError('❌ Nama hewan tidak boleh kosong');
-    if (age < 0) throw ArgumentError('❌ Umur hewan tidak boleh negatif');
-    
+    if (name.trim().isEmpty) {
+      throw ArgumentError('⚠️ Nama hewan tidak boleh kosong! ⚡');
+    }
+    if (age &lt; 0) {
+      throw ArgumentError('⚠️ Umur hewan tidak boleh kurang dari 0! ⚡');
+    }
+
     final key = 'animal::${type.toLowerCase()}::${name.toLowerCase().trim()}::$age';
-    
+
     if (_animalRegistry.containsKey(key)) {
-      print('🏔️ [Cache Hit] Memakai hewan dari cache: $key');
+      print('⚡ [Cache Hit] Reusing existing Animal instance from cache: $key');
       return _animalRegistry[key]!;
     }
-    
-    print('🌿 [Cache Miss] Membuat hewan baru: $key');
-    AnimalFactory animal;
+
+    print('🔥 [Cache Miss] Creating new Animal instance for: $key');
+    AnimalFactory newAnimal;
     switch (type.toLowerCase()) {
-      case 'dog': animal = DogAnimal._(name, age); break;
-      case 'cat': animal = CatAnimal._(name, age); break;
-      case 'bird': animal = BirdAnimal._(name, age); break;
-      default: throw ArgumentError('❌ Tipe hewan "$type" tidak dikenal! Pilih: dog, cat, bird');
+      case 'dog':
+        newAnimal = DogAnimal._(name, age);
+        break;
+      case 'cat':
+        newAnimal = CatAnimal._(name, age);
+        break;
+      case 'bird':
+        newAnimal = BirdAnimal._(name, age);
+        break;
+      default:
+        throw ArgumentError('⚠️ Tipe hewan "$type" tidak didukung! Pilih dog, cat, atau bird. ⚡');
     }
-    _animalRegistry[key] = animal;
-    return animal;
+
+    _animalRegistry[key] = newAnimal;
+    return newAnimal;
   }
-  
-  static int get cacheSize => _animalRegistry.length;
-  static void clearCache() => _animalRegistry.clear();
+
+  static int get cacheSize =&gt; _animalRegistry.length;
+
+  static void clearCache() {
+    _animalRegistry.clear();
+    print('🔻 [Cache Clear] Animal cache successfully cleared.');
+  }
 }
 
 class DogAnimal implements AnimalFactory {
-  @override final String name;
-  @override final int age;
-  @override final String sound = 'Guk Guk! 🐕';
-  
-  DogAnimal._(this.name, this.age);
-  
   @override
-  void speak() => print('🐶 Anjing "$name" ($age tahun): $sound');
+  final String name;
+  @override
+  final int age;
+  @override
+  final String sound = 'Woof!';
+
+  DogAnimal._(this.name, this.age);
+
+  @override
+  void speak() {
+    print('🐶 [$name - Anjing ($age tahun)]: $sound');
+  }
 }
 
 class CatAnimal implements AnimalFactory {
-  @override final String name;
-  @override final int age;
-  @override final String sound = 'Meong~ 🐱';
-  
-  CatAnimal._(this.name, this.age);
-  
   @override
-  void speak() => print('🐱 Kucing "$name" ($age tahun): $sound');
+  final String name;
+  @override
+  final int age;
+  @override
+  final String sound = 'Meow!';
+
+  CatAnimal._(this.name, this.age);
+
+  @override
+  void speak() {
+    print('🐱 [$name - Kucing ($age tahun)]: $sound');
+  }
 }
 
 class BirdAnimal implements AnimalFactory {
-  @override final String name;
-  @override final int age;
-  @override final String sound = 'Cit cit 🐦';
-  
-  BirdAnimal._(this.name, this.age);
-  
   @override
-  void speak() => print('🐦 Burung "$name" ($age tahun): $sound');
-}
+  final String name;
+  @override
+  final int age;
+  @override
+  final String sound = 'Tweet Tweet!';
+
+  BirdAnimal._(this.name, this.age);
+
+  @override
+  void speak() {
+    print('🐦 [$name - Burung ($age tahun)]: $sound');
+  }
+}</code></pre>
+      </div>
+
+      <div class="code-container" id="code-animal-factory">
+        <div class="code-header">
+          <span class="lang">FILE: test_animal_factory.dart</span>
+          <button class="btn" onclick="runCode('code-animal-factory', '29ee581ae5d641e3bac0dd7808121927')">▶ RUN</button>
+        </div>
+        <pre><code>// Nama   : M.ALGERIJA HERTYAZ PASLAM
+// Nim    : 251410021
+// Kelas  : SI2A
+
+import 'libanimal_factory.dart';
 
 void main() {
-  print('╔══════════════════════════════════════════════════════════════╗');
-  print('║      ANIMAL FACTORY CHALLENGE - M.ALGERIJA HERTYAZ PASLAM    ║');
-  print('║              NIM: 251410021 | Kelas: SI2A                    ║');
-  print('╚══════════════════════════════════════════════════════════════╝\n');
+  print('🔥 DEMO CACHING ANIMAL FACTORY - M.ALGERIJA 🔥\n');
 
-  print('🔹 Membuat Hewan: Anjing "Rimba" (3 tahun) 🔹');
-  final a1 = AnimalFactory('dog', 'Rimba', 3);
-  a1.speak();
-  print('Ukuran cache: ${AnimalFactory.cacheSize}\n');
+  print('🐶 [Hewan 1] Buat Anjing Bella (3 tahun) 🐶');
+  final animal1 = AnimalFactory('dog', 'Bella', 3);
+  animal1.speak();
+  print('Ukuran Cache: ${AnimalFactory.cacheSize}\n');
 
-  print('🔹 Membuat Hewan Sama: Anjing "Rimba" (3 tahun) - Harus Cache Hit 🔹');
-  final a2 = AnimalFactory('dog', 'Rimba', 3);
-  a2.speak();
-  print('Apakah a1 dan a2 identik? ${identical(a1, a2)}');
-  print('Ukuran cache: ${AnimalFactory.cacheSize}\n');
+  print('🐶 [Hewan 2] Rekonstruksi Anjing Bella (Harus Cache Hit) 🐶');
+  final animal2 = AnimalFactory('dog', 'Bella', 3);
+  animal2.speak();
+  print('Ukuran Cache: ${AnimalFactory.cacheSize}');
+  print('Apakah Hewan 1 identik dengan Hewan 2? ${identical(animal1, animal2)}');
+  print('');
 
-  print('🔹 Membuat Hewan Baru: Kucing "Lembang" (2 tahun) 🔹');
-  final a3 = AnimalFactory('cat', 'Lembang', 2);
-  a3.speak();
-  print('Ukuran cache: ${AnimalFactory.cacheSize}\n');
+  print('🐱 [Hewan 3] Buat Kucing Bella (Harus Berbeda dari Hewan 1) 🐱');
+  final animal3 = AnimalFactory('cat', 'Bella', 3);
+  animal3.speak();
+  print('Ukuran Cache: ${AnimalFactory.cacheSize}');
+  print('Apakah Hewan 1 identik dengan Hewan 3? ${identical(animal1, animal3)}');
+  print('');
 
-  print('🔹 Membuat Hewan: Burung "Cendrawasih" (1 tahun) 🔹');
-  final a4 = AnimalFactory('bird', 'Cendrawasih', 1);
-  a4.speak();
-  print('Ukuran cache: ${AnimalFactory.cacheSize}\n');
+  print('🐶 [Hewan 4] Buat Anjing Bella dengan Umur Berbeda (4 tahun) 🐶');
+  final animal4 = AnimalFactory('dog', 'Bella', 4);
+  animal4.speak();
+  print('Ukuran Cache: ${AnimalFactory.cacheSize}\n');
 
-  print('🔸 Uji Validasi Nama Kosong 🔸');
+  print('🐦 [Hewan 5] Buat Burung Sky (1 tahun) 🐦');
+  final animal5 = AnimalFactory('bird', 'Sky', 1);
+  animal5.speak();
+  print('Ukuran Cache: ${AnimalFactory.cacheSize}\n');
+
+  print('⚠️ Uji Input Nama Kosong (Ekspektasi Error) ⚠️');
   try {
-    final invalid = AnimalFactory('dog', '', 2);
-    invalid.speak();
+    final invalidName = AnimalFactory('dog', '', 2);
+    invalidName.speak();
   } catch (e) {
-    print('✅ ERROR DITANGKAP: \$e');
+    print('ERROR DITANGKAP: $e');
   }
-  
-  print('\n🔸 Uji Validasi Umur Negatif 🔸');
+  print('');
+
+  print('⚠️ Uji Input Umur Negatif (Ekspektasi Error) ⚠️');
   try {
-    final invalid2 = AnimalFactory('cat', 'Milo', -1);
-    invalid2.speak();
+    final invalidAge = AnimalFactory('cat', 'Oliver', -1);
+    invalidAge.speak();
   } catch (e) {
-    print('✅ ERROR DITANGKAP: \$e');
+    print('ERROR DITANGKAP: $e');
   }
-  
-  print('\n══════════════════════════════════════════════════════════════');
-  print('📌 KESIMPULAN AKHIR: Factory Constructor di Dart');
-  print('   1️⃣ Connection Pooling → Mengelola resource secara efisien');
-  print('   2️⃣ Subclass Selection → Memilih subclass secara dinamis');
-  print('   3️⃣ Flyweight Pattern → Caching untuk hemat memori');
-  print('   4️⃣ Validasi Terpusat → Menjamin objek selalu valid');
-  print('══════════════════════════════════════════════════════════════');
+  print('');
+
+  print('⚠️ Uji Input Tipe Hewan Tidak Valid (Ekspektasi Error) ⚠️');
+  try {
+    final invalidType = AnimalFactory('rabbit', 'Milo', 3);
+    invalidType.speak();
+  } catch (e) {
+    print('ERROR DITANGKAP: $e');
+  }
 }</code></pre>
       </div>
     </div>
 
     <div class="footer">
-      🏔️ 2026 // M.ALGERIJA HERTYAZ PASLAM // 251410021 // SI2A // SESI 10 - FACTORY CONSTRUCTORS 🏔️
+      ⚡ 2026 // M.ALGERIJA HERTYAZ PASLAM // 251410021 // SI2A // SESI 10 ⚡
     </div>
   </div>
 
@@ -926,18 +1112,19 @@ void main() {
   </div>
 
   <script>
-    function runCodeFromText(elementId) {
+    function runCode(id, gistId = null) {
       const modal = document.getElementById('codeModal');
       const iframeContainer = document.getElementById('modalIframeContainer');
-      const codeElement = document.getElementById(elementId);
-      const fullCode = codeElement.innerText;
-      const encodedCode = encodeURIComponent(fullCode);
-      
       modal.classList.add('active');
       document.body.style.overflow = 'hidden';
-      
       let iframe = document.createElement('iframe');
-      iframe.src = `https://dartpad.dev/embed-inline.html?theme=dark&run=true&code=${encodedCode}`;
+      if (gistId) {
+        iframe.src = `https://dartpad.dev/embed-inline.html?theme=dark&run=true&id=${gistId}`;
+      } else {
+        const code = document.getElementById(id).querySelector('code').innerText;
+        const encodedCode = encodeURIComponent(code);
+        iframe.src = `https://dartpad.dev/embed-inline.html?theme=dark&run=true&code=${encodedCode}`;
+      }
       iframeContainer.innerHTML = '';
       iframeContainer.appendChild(iframe);
     }
