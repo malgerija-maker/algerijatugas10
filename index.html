@@ -21,7 +21,6 @@
       --code-bg: #eff3e8;
       --border-color: #b9b28a;
       --shadow-color: rgba(45, 94, 44, 0.15);
-      --conclusion-bg: #e8e0c8;
     }
 
     * {
@@ -37,6 +36,7 @@
       font-family: 'Poppins', sans-serif;
       line-height: 1.6;
       overflow-x: hidden;
+      /* Background pegunungan dengan gradien dan siluet */
       background-image: 
         linear-gradient(145deg, #b7c9a2 0%, #d9e2cc 40%, #ecf0e6 100%),
         url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" opacity="0.1"><path fill="%233f5c3a" d="M0,600 L200,450 L350,520 L500,380 L650,480 L800,350 L950,420 L1100,300 L1200,360 L1200,800 L0,800 Z"/><path fill="%232d4a2b" d="M0,650 L180,520 L320,600 L480,450 L600,550 L780,430 L900,520 L1050,400 L1200,480 L1200,800 L0,800 Z"/><path fill="%231a361a" d="M0,720 L250,600 L400,680 L550,550 L700,650 L850,530 L1000,620 L1150,500 L1200,580 L1200,800 L0,800 Z"/></svg>');
@@ -45,6 +45,7 @@
       background-size: cover;
     }
 
+    /* Awan dan kabut bergerak */
     .mist {
       position: fixed;
       top: 0;
@@ -84,10 +85,17 @@
       margin-bottom: 10px;
       position: relative;
       display: inline-block;
+      text-shadow: 4px 4px 12px rgba(45, 94, 44, 0.3);
+      letter-spacing: 2px;
       background: linear-gradient(135deg, #2d5e2c, #6c8b4a);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
+      text-shadow: none;
+    }
+    /* Fallback warna solid */
+    @supports not (background-clip: text) {
+      .gerakan { color: #2d5e2c; text-shadow: 2px 2px 0 #b9b28a; }
     }
 
     .info-bar {
@@ -203,30 +211,23 @@
       line-height: 1.8;
     }
 
-    /* Gaya untuk kotak kesimpulan */
-    .conclusion-box {
-      background: var(--conclusion-bg);
-      border-left: 6px solid var(--accent-green);
-      padding: 18px 22px;
-      margin: 25px 0 10px 0;
-      border-radius: 20px;
-      font-size: 0.92rem;
-      color: #3a4a33;
-      box-shadow: 0 5px 12px rgba(0,0,0,0.05);
+    ul {
+      list-style: none;
+      margin-bottom: 25px;
     }
 
-    .conclusion-box strong {
-      color: var(--accent-earth);
-      font-weight: 700;
+    ul li {
+      margin-bottom: 12px;
+      padding-left: 35px;
+      position: relative;
+      color: var(--text-dim);
     }
 
-    .conclusion-box::before {
-      content: "📝 Kesimpulan: ";
-      font-weight: 800;
-      color: var(--accent-green);
-      display: block;
-      margin-bottom: 8px;
-      font-size: 0.95rem;
+    ul li::before {
+      content: "⛰️";
+      position: absolute;
+      left: 0;
+      font-size: 1.1rem;
     }
 
     .code-container {
@@ -364,6 +365,7 @@
       text-shadow: 0 2px 4px #2d2b1f;
     }
 
+    /* Media Queries */
     @media (max-width: 768px) {
       .container { margin: 20px auto; padding: 0 10px; }
       header { margin-bottom: 40px; }
@@ -377,7 +379,6 @@
       pre { padding: 15px; font-size: 0.7rem; }
       .modal-content { height: 75vh; width: 95%; }
       .close-modal { top: -45px; right: 0px; font-size: 35px; }
-      .conclusion-box { padding: 14px 16px; font-size: 0.85rem; }
     }
   </style>
 </head>
@@ -388,16 +389,15 @@
     <header>
       <div class="gerakan">M.ALGERIJA HERTYAZ PASLAM</div>
       <div class="info-bar">NIM: <b>251410021</b> // KELAS: <b>SI2A</b></div>
-      <h1 class="session-title">TUGAS PAK AFRIYUDI KE 10 : <span>FACTORY CONSTRUCTORS</span></h1>
+      <h1 class="session-title">TUGAS SESI 10: <span>FACTORY CONSTRUCTORS</span></h1>
     </header>
 
-    <!-- LATIHAN 1 -->
     <div class="cyber-card">
       <h3><span>01</span> LATIHAN 1: CONNECTION POOLING <div class="badge badge-dartpad">Dartpad</div>
       </h3>
-      <p>Menghemat alokasi memori melalui pola **Database Connection Pooling** menggunakan Factory Constructor. Jumlah
-        koneksi aktif dibatasi maksimal 3 koneksi, dan koneksi yang telah dilepas (*idle*) akan secara otomatis
-        dimanfaatkan kembali. — Tema gunung mengilhami ketahanan dan efisiensi layaknya aliran sungai di pegunungan.</p>
+      <p>Connection Pooling adalah teknik yang digunakan dalam pengembangan aplikasi
+        (terutama yang berbasis database) untuk mengelola dan mengoptimalkan pembuatan serta penggunaan koneksi database. Teknik ini bekerja dengan menyimpan kumpulan koneksi database yang sudah dibuat sebelumnya di dalam sebuah "kolam" (pool),
+        sehingga koneksi tersebut dapat digunakan ulang oleh berbagai permintaan dari aplikasi</p>
 
       <div class="code-container">
         <div class="code-header"><span class="lang">FILE: libconnection_factory.dart</span></div>
@@ -418,60 +418,53 @@
   factory ConnectionFactory(String dbName, {String host = 'localhost', int port = 5432}) {
     final key = '${dbName.toLowerCase()}@$host:$port';
     
-    // Initialize pool if not exists
     if (!_poolRegistry.containsKey(key)) {
       _poolRegistry[key] = [];
     }
 
     final connList = _poolRegistry[key]!;
 
-    // Cari koneksi yang sedang idle (isReleased = true)
     for (var conn in connList) {
       if (conn.isReleased) {
         conn.isReleased = false;
-        print(' [Pool Hit] Reusing idle connection: ${conn.id} for $key');
+        print('🏔️ [Pool Hit] Reusing idle connection: ${conn.id} for $key');
         return conn;
       }
     }
 
-    // Buat koneksi baru jika belum mencapai batas maksimal
     if (connList.length < maxConnections) {
       final connIdentifier = 'conn_${dbName.toLowerCase()}_${connList.length + 1}';
       final newConnection = ConnectionFactory._(connIdentifier, dbName, host, port);
       newConnection.isReleased = false;
       connList.add(newConnection);
-      print(' [Pool Miss] Created new connection: $connIdentifier untuk $key');
+      print('🌲 [Pool Miss] Created new connection: $connIdentifier untuk $key');
       return newConnection;
     }
 
-    // Jika semua koneksi sedang aktif dan sudah mencapai batas maksimal
-    throw StateError(' Batas maksimum koneksi database tercapai ($maxConnections) untuk pool $key! ');
+    throw StateError('⛰️ Batas maksimum koneksi database tercapai ($maxConnections) untuk pool $key!');
   }
 
-  // Method untuk menjalankan query
   void query(String sql) {
     if (isReleased) {
-      throw StateError('Koneksi $id telah dilepas! Hubungkan kembali sebelum query. ');
+      throw StateError('🌿 Koneksi $id telah dilepas! Hubungkan kembali sebelum query.');
     }
-    print(' [$id] Menjalankan query: "$sql" pada database "$dbName" ($host:$port)');
+    print('🏔️ [$id] Menjalankan query: "$sql" pada database "$dbName" ($host:$port)');
   }
 
-  // Method static untuk melepas koneksi kembali ke pool
   static void release(ConnectionFactory conn) {
     if (conn.isReleased) {
       print('⚠️ [Warning] Connection ${conn.id} already released!');
       return;
     }
     conn.isReleased = true;
-    print(' [Pool Release] Connection ${conn.id} successfully returned to pool.');
+    print('🍃 [Pool Release] Connection ${conn.id} successfully returned to pool.');
   }
 
-  // Method static untuk menampilkan status pool
   static void printStatus(String dbName, {String host = 'localhost', int port = 5432}) {
     final key = '${dbName.toLowerCase()}@$host:$port';
     final connList = _poolRegistry[key];
     
-    print('\n =================================');
+    print('\n⛰️ =================================');
     print('STATUS POOL KONEKSI ($key)');
     print('=================================');
     
@@ -479,7 +472,7 @@
       print('Belum ada koneksi yang terdaftar.');
     } else {
       for (var conn in connList) {
-        final status = conn.isReleased ? "IDLE / TERSEDIA " : "ACTIVE / SEDANG DIGUNAKAN ";
+        final status = conn.isReleased ? "IDLE / TERSEDIA 🍃" : "ACTIVE / SEDANG DIGUNAKAN 🏔️";
         print(' - ${conn.id}: [$status]');
       }
       print('\nTotal koneksi: ${connList.length}/${maxConnections}');
@@ -493,81 +486,109 @@
   }
 }
 
-// Contoh penggunaan
 void main() {
   print('=== DEMO CONNECTION POOL ===\n');
-  
   try {
-    // Meminta koneksi pertama
-    print('1. Meminta koneksi pertama:');
     var conn1 = ConnectionFactory('testdb');
     conn1.query('SELECT * FROM users');
     ConnectionFactory.printStatus('testdb');
     
-    // Meminta koneksi kedua
-    print('\n2. Meminta koneksi kedua:');
     var conn2 = ConnectionFactory('testdb');
     conn2.query('SELECT * FROM products');
     ConnectionFactory.printStatus('testdb');
     
-    // Meminta koneksi ketiga
-    print('\n3. Meminta koneksi ketiga:');
     var conn3 = ConnectionFactory('testdb');
     conn3.query('SELECT * FROM orders');
     ConnectionFactory.printStatus('testdb');
     
-    // Melepas koneksi 1
-    print('\n4. Melepas koneksi 1:');
     ConnectionFactory.release(conn1);
     ConnectionFactory.printStatus('testdb');
     
-    // Meminta koneksi baru (harusnya reuse conn1)
-    print('\n5. Meminta koneksi baru (harusnya reuse conn1):');
     var conn4 = ConnectionFactory('testdb');
     conn4.query('SELECT * FROM logs');
     ConnectionFactory.printStatus('testdb');
     
-    // Mencoba meminta koneksi ke-4 (akan error karena max 3)
-    print('\n6. Mencoba meminta koneksi ke-4:');
     var conn5 = ConnectionFactory('testdb');
     conn5.query('SELECT * FROM temp');
-    
   } catch (e) {
     print('\n❌ Error: $e');
   }
-  
-  // Contoh dengan database berbeda
-  print('\n=== DATABASE BERBEDA ===\n');
-  var connAnalytics = ConnectionFactory('analytics', host: '192.168.1.100', port: 3306);
-  connAnalytics.query('SELECT * FROM metrics');
-  ConnectionFactory.printStatus('analytics', host: '192.168.1.100', port: 3306);
-  
-  // Contoh error saat menggunakan koneksi yang sudah direlease
-  print('\n=== DEMO ERROR HANDLING ===\n');
-  var tempConn = ConnectionFactory('testdb');
-  tempConn.query('SELECT * FROM temp');
-  ConnectionFactory.release(tempConn);
-  
-  try {
-    tempConn.query('SELECT * FROM error'); // Ini akan error
-  } catch (e) {
-    print('✅ Berhasil menangkap error: $e');
-  }
-}
-</code></pre>
+}</code></pre>
       </div>
 
       <div class="code-container" id="code-connection-factory">
         <div class="code-header">
           <span class="lang">FILE: test_connection_factory.dart</span>
-          <button class="btn" onclick="runCode('code-connection-factory', '2d4e17e7b8467531adc3b17021e4013e')">▶ Run</button>
+          <button class="btn" onclick="runCode('code-connection-factory', '2d4e17e7b8467531adc3b17021e4013e')">▶
+            Run</button>
         </div>
-        <pre><code>// Nama   : M.ALGERIJA HERTYAZ PASLAM | NIM:251410021 | SI2A
-// Nama   : M. ALGERIJA HERTYAZ PASLAM
+        <pre><code>// Nama   : M.ALGERIJA HERTYAZ PASLAM
 // Nim    : 251410021
 // Kelas  : SI2A
 
-abstract class NotificationFactory {
+import 'libconnection_factory.dart';
+
+void main() {
+  print('📌 DEMO SISTEM POOL KONEKSI - ALGERIJA 📌\\n');
+
+  final dbName = 'pos_system';
+
+  print('🔹 [Koneksi 1] Alokasikan Koneksi Baru 🔹');
+  final dbConn1 = ConnectionFactory(dbName);
+  dbConn1.query('SELECT * FROM users');
+  print('');
+
+  print('🔹 [Koneksi 2] Alokasikan Koneksi Baru 🔹');
+  final dbConn2 = ConnectionFactory(dbName);
+  dbConn2.query('SELECT * FROM products');
+  print('');
+
+  ConnectionFactory.printStatus(dbName);
+  print('');
+
+  print('🔸 Kembalikan Koneksi 1 ke Pool 🔸');
+  ConnectionFactory.release(dbConn1);
+  print('');
+
+  ConnectionFactory.printStatus(dbName);
+  print('');
+
+  print('🔹 [Koneksi 3] Reuse Koneksi yang Idle 🔹');
+  final dbConn3 = ConnectionFactory(dbName);
+  dbConn3.query('UPDATE stock SET quantity = 100 WHERE id = 1');
+  print('Apakah dbConn1 identik dengan dbConn3? \${identical(dbConn1, dbConn3)}');
+  print('');
+
+  print('🔹 [Koneksi 4] Alokasikan Koneksi Baru 🔹');
+  final dbConn4 = ConnectionFactory(dbName);
+  dbConn4.query('INSERT INTO transaction_history VALUES (1, 50000)');
+  print('');
+
+  ConnectionFactory.printStatus(dbName);
+  print('');
+
+  print('🔸 Uji Batas Maksimum Koneksi (Ekspektasi Error) 🔸');
+  try {
+    final dbConn5 = ConnectionFactory(dbName);
+    dbConn5.query('SELECT * FROM audit_logs');
+  } catch (e) {
+    print('ERROR DITANGKAP: \$e');
+  }
+}</code></pre>
+      </div>
+    </div>
+
+    <div class="cyber-card">
+      <h3><span>02</span> LATIHAN 2: PLATFORM NOTIFICATION SELECTOR <div class="badge badge-dartpad">Dartpad</div>
+      </h3>
+      <p>Subclass Selection adalah proses menentukan atau memilih
+        subclass mana yang akan diinstansiasi (dibuat objeknya) pada saat runtime, berdasarkan kondisi atau parameter tertentu. Pola ini sering muncul ketika superclass memiliki beberapa
+        subclass turunan,
+        dan aplikasi harus secara dinamis memilih salah satu yang sesuai dengan kebutuhan.</p>
+
+      <div class="code-container">
+        <div class="code-header"><span class="lang">FILE: libnotification_factory.dart</span></div>
+        <pre><code>abstract class NotificationFactory {
   String get message;
   void send();
 
@@ -582,7 +603,7 @@ abstract class NotificationFactory {
       case 'windows':
         return WindowsNotification(message);
       default:
-        throw ArgumentError(' Platform tidak didukung: "$platform"! Silakan pilih android, ios, web, atau windows. ');
+        throw ArgumentError('⛰️ Platform tidak didukung: "$platform"! Pilih android, ios, web, atau windows.');
     }
   }
 }
@@ -590,141 +611,98 @@ abstract class NotificationFactory {
 class AndroidNotification implements NotificationFactory {
   @override
   final String message;
-
   AndroidNotification(this.message);
-
   @override
   void send() {
-    print(' [Android FCM] Dispatching notification to device:');
-    print('    Message payload: "$message"');
+    print('📱 [Android FCM] Mengirim notifikasi gunung:');
+    print('   💌 Pesan: "$message"');
   }
 }
 
 class IOSNotification implements NotificationFactory {
   @override
   final String message;
-
   IOSNotification(this.message);
-
   @override
   void send() {
-    print(' [iOS APNs] Delivering push notification:');
-    print('    Message payload: "$message"');
+    print('🍏 [iOS APNs] Notifikasi puncak:');
+    print('   💌 Pesan: "$message"');
   }
 }
 
 class WebNotification implements NotificationFactory {
   @override
   final String message;
-
   WebNotification(this.message);
-
   @override
   void send() {
-    print(' [Web Push] Broadcasting service worker alert:');
-    print('    Message payload: "$message"');
+    print('🌐 [Web Push] Kabut digital membawa pesan:');
+    print('   💌 Pesan: "$message"');
   }
 }
 
 class WindowsNotification implements NotificationFactory {
   @override
   final String message;
-
   WindowsNotification(this.message);
-
   @override
   void send() {
-    print('🪟 [Windows WNS] Triggering desktop toast:');
-    print('    Message payload: "$message"');
+    print('🪟 [Windows WNS] Toast di desktop:');
+    print('   💌 Pesan: "$message"');
   }
-}
+}</code></pre>
+      </div>
+
+      <div class="code-container" id="code-notification-factory">
+        <div class="code-header">
+          <span class="lang">FILE: test_notification_factory.dart</span>
+          <button class="btn" onclick="runCode('code-notification-factory', '09b6496c25ab1662c113836297b35222')">▶
+            Run</button>
+        </div>
+        <pre><code>// Nama   : M.ALGERIJA HERTYAZ PASLAM
+// Nim    : 251410021
+// Kelas  : SI2A
+
+import 'libnotification_factory.dart';
 
 void main() {
-  print(' DEMO PLATFORM NOTIFIKASI - ALGERIJA HERTYAZ \\n');
+  print('📌 DEMO NOTIFIKASI PLATFORM - ALGERIJA 📌\\n');
 
-  print('🔹 Kirim Notif ke Perangkat Android 🔹');
-  final androidAlert = NotificationFactory('android', 'Diskon belanja 50% untuk Anda!');
+  final androidAlert = NotificationFactory('android', 'Awas longsor! Periksa jalur pendakian.');
   androidAlert.send();
-  print('Tipe Instansi: \${androidAlert.runtimeType}\\n');
+  print('Tipe: \${androidAlert.runtimeType}\\n');
 
-  print('🔹 Kirim Notif ke Perangkat iOS 🔹');
-  final iosAlert = NotificationFactory('ios', 'Pembayaran langganan bulanan berhasil.');
+  final iosAlert = NotificationFactory('ios', 'Cuaca membaik di puncak.');
   iosAlert.send();
-  print('Tipe Instansi: \${iosAlert.runtimeType}\\n');
+  print('Tipe: \${iosAlert.runtimeType}\\n');
 
-  print('🔹 Kirim Notif ke Browser Web 🔹');
-  final webAlert = NotificationFactory('web', 'Ada pesan baru masuk ke kotak masuk Anda.');
+  final webAlert = NotificationFactory('web', 'Grup pendaki: jadwal briefing jam 5 sore.');
   webAlert.send();
-  print('Tipe Instansi: \${webAlert.runtimeType}\\n');
+  print('Tipe: \${webAlert.runtimeType}\\n');
 
-  print('🔹 Kirim Notif ke Desktop Windows 🔹');
-  final windowsAlert = NotificationFactory('windows', 'Update aplikasi tersedia. Mulai ulang sekarang.');
+  final windowsAlert = NotificationFactory('windows', 'Update aplikasi peta topografi.');
   windowsAlert.send();
-  print('Tipe Instansi: \${windowsAlert.runtimeType}\\n');
+  print('Tipe: \${windowsAlert.runtimeType}\\n');
 
-  print('🔸 Uji Penanganan Platform Tidak Valid (Ekspektasi Error) 🔸');
   try {
-    final invalidAlert = NotificationFactory('linux', 'Ini tidak akan terkirim.');
+    final invalidAlert = NotificationFactory('linux', 'gagal');
     invalidAlert.send();
   } catch (e) {
     print('ERROR DITANGKAP: \$e');
   }
 }</code></pre>
       </div>
-      
-      <!-- KESIMPULAN LATIHAN 1 -->
-      <div class="conclusion-box">
-        <strong>Kesimpulan Latihan 1 (Connection Pooling):</strong> Factory constructor memungkinkan pengelolaan resource database secara efisien dengan membatasi jumlah koneksi dan melakukan reuse objek idle. Pola ini menghemat memori dan meningkatkan performa aplikasi, seperti aliran sungai di pegunungan yang mengalir efisien tanpa meluap.
-      </div>
     </div>
 
-    <!-- LATIHAN 2 -->
     <div class="cyber-card">
-      <h3><span>02</span> LATIHAN 2: PLATFORM NOTIFICATION SELECTOR <div class="badge badge-dartpad">Dartpad</div>
+      <h3><span>03</span> LATIHAN 3: SHAPE CACHING (FLYEWIGHT) <div class="badge badge-dartpad">Dartpad</div>
       </h3>
-      <p>Menerapkan **Subclass Selection** melalui Factory Constructor. Klien memanggil satu interface terpadu,
-        sedangkan factory constructor secara dinamis mengembalikan instansi subclass yang spesifik (FCM, APNS, WebPush,
-        WNS) sesuai platform target. Gemuruh notifikasi menggema seperti panggilan di lembah.</p>
+      <p>Flyweight Pattern adalah pola desain struktural yang bertujuan untuk meminimalkan penggunaan memori dengan cara berbagi (sharing) data sebanyak mungkin antar objek yang serupa. Pola ini sangat berguna
+        ketika Anda perlu membuat banyak objek dalam jumlah sangat besar,tetapi hanya sedikit variasi data di antara mereka.</p>
 
-      <div class="code-container" id="code-notification-factory">
-        <div class="code-header">
-          <span class="lang">FILE: test_notification_factory.dart</span>
-          <button class="btn" onclick="runCode('code-notification-factory', '09b6496c25ab1662c113836297b35222')">▶ Run</button>
-        </div>
-        <pre><code>// Nama: M.ALGERIJA HERTYAZ PASLAM | NIM:251410021 | SI2A
-import 'libnotification_factory.dart';
-void main() {
-  final android = NotificationFactory('android', 'Peringatan longsor');
-  android.send();
-  final ios = NotificationFactory('ios', 'Cuaca ekstrem di puncak');
-  ios.send();
-}</code></pre>
-      </div>
-      
-      <!-- KESIMPULAN LATIHAN 2 -->
-      <div class="conclusion-box">
-        <strong>Kesimpulan Latihan 2 (Notification Selector):</strong> Factory constructor mampu memilih dan mengembalikan subclass yang tepat berdasarkan parameter input (platform). Pola ini menyembunyikan kompleksitas pembuatan objek dari klien, meningkatkan fleksibilitas dan kemudahan pemeliharaan kode, seperti pemandu gunung yang memilih jalur sesuai kebutuhan pendaki.
-      </div>
-    </div>
-
-    <!-- LATIHAN 3 -->
-    <div class="cyber-card">
-      <h3><span>03</span> LATIHAN 3: SHAPE CACHING (FLYWEIGHT) <div class="badge badge-dartpad">Dartpad</div>
-      </h3>
-      <p>Menerapkan **Flyweight Pattern** melalui caching bentuk. Apabila dipanggil instansi dengan tipe, ukuran, dan warna yang sama persis, sistem akan mengambil dari cache. Seperti formasi batuan yang khas di pegunungan.</p>
-
-      <div class="code-container" id="code-shape-factory">
-        <div class="code-header">
-          <span class="lang">FILE: test_shape_factory.dart</span>
-          <button class="btn" onclick="runCode('code-shape-factory', '0f662a78fed8479fa18bc118ae6d3240')">▶ Run</button>
-        </div>
-        <pre><code>// Nama   : M. ALGERIJA HERTYAZ PASLAM
-// Nim    : 251410021
-// Kelas  : SIA2
-
-import 'dart:math' as math;
-
-abstract class ShapeFactory {
+      <div class="code-container">
+        <div class="code-header"><span class="lang">FILE: libshape_factory.dart</span></div>
+        <pre><code>abstract class ShapeFactory {
   String get type;
   double get size;
   String get color;
@@ -733,361 +711,158 @@ abstract class ShapeFactory {
   static final Map<String, ShapeFactory> _flyweightRegistry = {};
 
   factory ShapeFactory(String type, double size, String color) {
-    if (size <= 0) {
-      throw ArgumentError('Ukuran bentuk (size) harus lebih besar dari 0!');
-    }
-    if (color.trim().isEmpty) {
-      throw ArgumentError('Warna bentuk tidak boleh kosong!');
-    }
-
+    if (size <= 0) throw ArgumentError('Ukuran harus > 0!');
+    if (color.trim().isEmpty) throw ArgumentError('Warna tidak boleh kosong');
     final key = 'shape:${type.toLowerCase()}:${color.trim().toLowerCase()}:$size';
-
     if (_flyweightRegistry.containsKey(key)) {
-      print('[Cache Hit] Reusing existing Shape instance: $key');
+      print('🏔️ [Cache Hit] Menggunakan ulang bentuk: $key');
       return _flyweightRegistry[key]!;
     }
-
-    print('[Cache Miss] Creating new Shape instance for: $key');
-    ShapeFactory shapeInstance;
+    print('🌲 [Cache Miss] Membuat bentuk baru: $key');
+    ShapeFactory shape;
     switch (type.toLowerCase()) {
-      case 'circle':
-        shapeInstance = CircleShape._(size, color);
-        break;
-      case 'square':
-        shapeInstance = SquareShape._(size, color);
-        break;
-      case 'triangle':
-        shapeInstance = TriangleShape._(size, color);
-        break;
-      default:
-        throw ArgumentError(' Tipe bentuk "$type" tidak didukung! Pilih circle, square, atau triangle. ');
+      case 'circle': shape = CircleShape._(size, color); break;
+      case 'square': shape = SquareShape._(size, color); break;
+      case 'triangle': shape = TriangleShape._(size, color); break;
+      default: throw ArgumentError('Tipe tidak didukung');
     }
-
-    _flyweightRegistry[key] = shapeInstance;
-    return shapeInstance;
+    _flyweightRegistry[key] = shape;
+    return shape;
   }
-
   static int get cacheSize => _flyweightRegistry.length;
-
-  static void clearCache() {
-    _flyweightRegistry.clear();
-    print('🔸 [Cache Clear] Shape cache successfully cleared.');
-  }
 }
 
 class CircleShape implements ShapeFactory {
-  @override
-  final String type = 'Circle';
-  @override
-  final double size;
-  @override
-  final String color;
-
+  @override final String type = 'Circle';
+  @override final double size;
+  @override final String color;
   CircleShape._(this.size, this.color);
-
-  @override
-  void draw() {
-    print('🔵 [Drawing] Circle (radius: $size, color: $color)');
-  }
+  @override void draw() => print('🔵 Lingkaran (radius: $size, warna: $color)');
 }
-
 class SquareShape implements ShapeFactory {
-  @override
-  final String type = 'Square';
-  @override
-  final double size;
-  @override
-  final String color;
-
+  @override final String type = 'Square';
+  @override final double size;
+  @override final String color;
   SquareShape._(this.size, this.color);
-
-  @override
-  void draw() {
-    print('🟩 [Drawing] Square (side: $size, color: $color)');
-  }
+  @override void draw() => print('🟩 Persegi (sisi: $size, warna: $color)');
 }
-
 class TriangleShape implements ShapeFactory {
-  @override
-  final String type = 'Triangle';
-  @override
-  final double size;
-  @override
-  final String color;
-
+  @override final String type = 'Triangle';
+  @override final double size;
+  @override final String color;
   TriangleShape._(this.size, this.color);
-
-  @override
-  void draw() {
-    print('🔺 [Drawing] Triangle (dimension: $size, color: $color)');
-  }
-}
-
-void main() {
-  print(' DEMO SHAPE FACTORY & CACHING - ALGERIJA HERTYAZ ');
-  print('================================================\n');
-
-  print(' [Shape 1] Buat Lingkaran Biru R=10.0 ');
-  final shape1 = ShapeFactory('circle', 10.0, 'Biru');
-  shape1.draw();
-  print('Ukuran Cache saat ini: ${ShapeFactory.cacheSize}\n');
-
-  print(' [Shape 2] Buat Ulang Lingkaran Biru R=10.0 (Harus Cache Hit) ');
-  final shape2 = ShapeFactory('circle', 10.0, 'Biru');
-  shape2.draw();
-  print('Ukuran Cache saat ini: ${ShapeFactory.cacheSize}');
-  print('Apakah Shape 1 identik dengan Shape 2? ${identical(shape1, shape2)}');
-  print('');
-
-  print(' [Shape 3] Buat Persegi Merah S=20.0 ');
-  final shape3 = ShapeFactory('square', 20.0, 'Merah');
-  shape3.draw();
-  print('Ukuran Cache saat ini: ${ShapeFactory.cacheSize}\n');
-
-  print('[Shape 4] Buat Lingkaran Merah R=10.0 ');
-  final shape4 = ShapeFactory('circle', 10.0, 'Merah');
-  shape4.draw();
-  print('Ukuran Cache saat ini: ${ShapeFactory.cacheSize}');
-  print('Apakah Shape 1 identik dengan Shape 4? ${identical(shape1, shape4)}');
-  print('');
-
-  print(' Uji Input Ukuran Negatif (Ekspektasi Error) ');
-  try {
-    final invalidShape = ShapeFactory('triangle', -5.0, 'Hijau');
-    invalidShape.draw();
-  } catch (e) {
-    print('ERROR DITANGKAP: $e');
-  }
-  print('');
-
-  print(' Uji Input Warna Kosong (Ekspektasi Error) ');
-  try {
-    final invalidColorShape = ShapeFactory('triangle', 12.0, '');
-    invalidColorShape.draw();
-  } catch (e) {
-    print('ERROR DITANGKAP: $e');
-  }
-  print('');
-
-  print(' Uji Input Tipe Bentuk Tidak Valid (Ekspektasi Error) ');
-  try {
-    final invalidTypeShape = ShapeFactory('pentagon', 15.0, 'Kuning');
-    invalidTypeShape.draw();
-  } catch (e) {
-    print('ERROR DITANGKAP: $e');
-  }
-  print('');
-
-  print('================================================');
-  print(' DEMO SELESAI ');
+  @override void draw() => print('🔺 Segitiga (dimensi: $size, warna: $color)');
 }</code></pre>
       </div>
-      
-      <!-- KESIMPULAN LATIHAN 3 -->
-      <div class="conclusion-box">
-        <strong>Kesimpulan Latihan 3 (Shape Caching / Flyweight):</strong> Dengan memanfaatkan factory constructor dan cache statis, objek yang identik tidak diciptakan berulang kali. Pola flyweight menghemat memori secara signifikan saat banyak objek serupa digunakan, meningkatkan performa aplikasi seperti bebatuan di gunung yang memiliki karakteristik khas dan tidak perlu diciptakan ulang.
+
+      <div class="code-container" id="code-shape-factory">
+        <div class="code-header">
+          <span class="lang">FILE: test_shape_factory.dart</span>
+          <button class="btn" onclick="runCode('code-shape-factory', '0f662a78fed8479fa18bc118ae6d3240')">▶ Run</button>
+        </div>
+        <pre><code>// Nama   : M.ALGERIJA HERTYAZ PASLAM
+// Nim    : 251410021
+// Kelas  : SI2A
+
+import 'libshape_factory.dart';
+
+void main() {
+  print('📌 DEMO SHAPE CACHING - ALGERIJA 📌\n');
+  final shape1 = ShapeFactory('circle', 10.0, 'Hijau Gunung');
+  shape1.draw();
+  final shape2 = ShapeFactory('circle', 10.0, 'Hijau Gunung');
+  shape2.draw();
+  print('Identik? ${identical(shape1, shape2)}');
+  final shape3 = ShapeFactory('square', 15.0, 'Tanah');
+  shape3.draw();
+  print('Ukuran cache: ${ShapeFactory.cacheSize}');
+}</code></pre>
       </div>
     </div>
 
-    <!-- CHALLENGE -->
     <div class="cyber-card">
       <h3><span>04</span> CHALLENGE: ANIMAL FACTORY <div class="badge badge-dartpad">Challenge</div>
       </h3>
-      <p>Mengintegrasikan konsep Factory Constructor ke dalam `AnimalFactory` dengan caching dinamis serta validasi ketat. Fauna pegunungan (serigala, elang, kucing hutan) sebagai inspirasi.</p>
+      <p>Factory Constructor adalah metode (biasanya static method atau method khusus)
+        di dalam kelas factory yang bertanggung jawab untuk membuat dan mengembalikan instance dari berbagai subclass berdasarkan parameter input.
+        Di sini, AnimalFactory bertindak sebagai "pabrik" yang memproduksi berbagai jenis hewan.</p>
+
+      <div class="code-container">
+        <div class="code-header"><span class="lang">FILE: libanimal_factory.dart</span></div>
+        <pre><code>abstract class AnimalFactory {
+  String get name;
+  int get age;
+  String get sound;
+  void speak();
+  static final Map<String, AnimalFactory> _animalRegistry = {};
+
+  factory AnimalFactory(String type, String name, int age) {
+    if (name.trim().isEmpty) throw ArgumentError('Nama hewan tidak boleh kosong');
+    if (age < 0) throw ArgumentError('Umur hewan tidak boleh negatif');
+    final key = 'animal::${type.toLowerCase()}::${name.toLowerCase().trim()}::$age';
+    if (_animalRegistry.containsKey(key)) {
+      print('🏔️ [Cache Hit] Memakai hewan dari cache: $key');
+      return _animalRegistry[key]!;
+    }
+    print('🌿 [Cache Miss] Hewan baru didaftarkan: $key');
+    AnimalFactory animal;
+    switch (type.toLowerCase()) {
+      case 'dog': animal = DogAnimal._(name, age); break;
+      case 'cat': animal = CatAnimal._(name, age); break;
+      case 'bird': animal = BirdAnimal._(name, age); break;
+      default: throw ArgumentError('Tipe hewan tidak dikenal');
+    }
+    _animalRegistry[key] = animal;
+    return animal;
+  }
+  static int get cacheSize => _animalRegistry.length;
+}
+
+class DogAnimal implements AnimalFactory {
+  @override final String name;
+  @override final int age;
+  @override final String sound = 'Guk Guk!';
+  DogAnimal._(this.name, this.age);
+  @override void speak() => print('🐶 Anjing $name ($age tahun): $sound');
+}
+class CatAnimal implements AnimalFactory {
+  @override final String name;
+  @override final int age;
+  @override final String sound = 'Meong~';
+  CatAnimal._(this.name, this.age);
+  @override void speak() => print('🐱 Kucing $name ($age tahun): $sound');
+}
+class BirdAnimal implements AnimalFactory {
+  @override final String name;
+  @override final int age;
+  @override final String sound = 'Cit cit';
+  BirdAnimal._(this.name, this.age);
+  @override void speak() => print('🐦 Burung $name ($age tahun): $sound');
+}</code></pre>
+      </div>
 
       <div class="code-container" id="code-animal-factory">
         <div class="code-header">
           <span class="lang">FILE: test_animal_factory.dart</span>
           <button class="btn" onclick="runCode('code-animal-factory', '3167a5fdb0c8398076c269ad2ad5e692')">▶ Run</button>
         </div>
-        <pre><code>// Nama   : M. ALGERIJA HERTYAZ PASLAM
-// Nim    : 251410009
-// Kelas  : SIA2
+        <pre><code>// Nama   : M.ALGERIJA HERTYAZ PASLAM
+// Nim    : 251410021
+// Kelas  : SI2A
 
-import 'dart:math' as math;
-
-abstract class AnimalFactory {
-  String get name;
-  int get age;
-  String get sound;
-  void speak();
-
-  static final Map<String, AnimalFactory> _animalRegistry = {};
-
-  factory AnimalFactory(String type, String name, int age) {
-    if (name.trim().isEmpty) {
-      throw ArgumentError(' Nama hewan tidak boleh kosong! ');
-    }
-    if (age < 0) {
-      throw ArgumentError(' Umur hewan tidak boleh kurang dari 0! ');
-    }
-
-    final key = 'animal::${type.toLowerCase()}::${name.toLowerCase().trim()}::$age';
-
-    if (_animalRegistry.containsKey(key)) {
-      print(' [Cache Hit] Reusing existing Animal instance from cache: $key');
-      return _animalRegistry[key]!;
-    }
-
-    print(' [Cache Miss] Creating new Animal instance for: $key');
-    AnimalFactory newAnimal;
-    switch (type.toLowerCase()) {
-      case 'dog':
-        newAnimal = DogAnimal._(name, age);
-        break;
-      case 'cat':
-        newAnimal = CatAnimal._(name, age);
-        break;
-      case 'bird':
-        newAnimal = BirdAnimal._(name, age);
-        break;
-      default:
-        throw ArgumentError('Tipe hewan "$type" tidak didukung! Pilih dog, cat, atau bird. ');
-    }
-
-    _animalRegistry[key] = newAnimal;
-    return newAnimal;
-  }
-
-  static int get cacheSize => _animalRegistry.length;
-
-  static void clearCache() {
-    _animalRegistry.clear();
-    print('[Cache Clear] Animal cache successfully cleared.');
-  }
-}
-
-class DogAnimal implements AnimalFactory {
-  @override
-  final String name;
-  @override
-  final int age;
-  @override
-  final String sound = 'Woof!';
-
-  DogAnimal._(this.name, this.age);
-
-  @override
-  void speak() {
-    print(' [$name - Anjing ($age tahun)]: $sound');
-  }
-}
-
-class CatAnimal implements AnimalFactory {
-  @override
-  final String name;
-  @override
-  final int age;
-  @override
-  final String sound = 'Meow!';
-
-  CatAnimal._(this.name, this.age);
-
-  @override
-  void speak() {
-    print(' [$name - Kucing ($age tahun)]: $sound');
-  }
-}
-
-class BirdAnimal implements AnimalFactory {
-  @override
-  final String name;
-  @override
-  final int age;
-  @override
-  final String sound = 'Tweet Tweet!';
-
-  BirdAnimal._(this.name, this.age);
-
-  @override
-  void speak() {
-    print(' [$name - Burung ($age tahun)]: $sound');
-  }
-}
+import 'libanimal_factory.dart';
 
 void main() {
-  print(' DEMO CACHING ANIMAL FACTORY - ALGERIJA HERTYAZ');
-  print('================================================\n');
-
-  print('[Hewan 1] Buat Anjing Bella (3 tahun) ');
-  final animal1 = AnimalFactory('dog', 'Bella', 3);
-  animal1.speak();
-  print('Ukuran Cache: ${AnimalFactory.cacheSize}\n');
-
-  print('[Hewan 2] Rekonstruksi Anjing Bella (Harus Cache Hit) ');
-  final animal2 = AnimalFactory('dog', 'Bella', 3);
-  animal2.speak();
-  print('Ukuran Cache: ${AnimalFactory.cacheSize}');
-  print('Apakah Hewan 1 identik dengan Hewan 2? ${identical(animal1, animal2)}');
-  print('');
-
-  print(' [Hewan 3] Buat Kucing Bella (Harus Berbeda dari Hewan 1) ');
-  final animal3 = AnimalFactory('cat', 'Bella', 3);
-  animal3.speak();
-  print('Ukuran Cache: ${AnimalFactory.cacheSize}');
-  print('Apakah Hewan 1 identik dengan Hewan 3? ${identical(animal1, animal3)}');
-  print('');
-
-  print(' [Hewan 4] Buat Anjing Bella dengan Umur Berbeda (4 tahun) ');
-  final animal4 = AnimalFactory('dog', 'Bella', 4);
-  animal4.speak();
-  print('Ukuran Cache: ${AnimalFactory.cacheSize}\n');
-
-  print(' [Hewan 5] Buat Burung Sky (1 tahun) ');
-  final animal5 = AnimalFactory('bird', 'Sky', 1);
-  animal5.speak();
-  print('Ukuran Cache: ${AnimalFactory.cacheSize}\n');
-
-  print('Uji Input Nama Kosong (Ekspektasi Error) ');
-  try {
-    final invalidName = AnimalFactory('dog', '', 2);
-    invalidName.speak();
-  } catch (e) {
-    print('ERROR DITANGKAP: $e');
-  }
-  print('');
-
-  print('Uji Input Umur Negatif (Ekspektasi Error)');
-  try {
-    final invalidAge = AnimalFactory('cat', 'Oliver', -1);
-    invalidAge.speak();
-  } catch (e) {
-    print('ERROR DITANGKAP: $e');
-  }
-  print('');
-
-  print('Uji Input Tipe Hewan Tidak Valid (Ekspektasi Error) ');
-  try {
-    final invalidType = AnimalFactory('rabbit', 'Milo', 3);
-    invalidType.speak();
-  } catch (e) {
-    print('ERROR DITANGKAP: $e');
-  }
-  print('');
-
-  print('================================================');
-  print(' DEMO SELESAI ');
+  print('📌 ANIMAL FACTORY - GUNUNG WILD 📌\n');
+  final a1 = AnimalFactory('dog', 'Rimba', 3);
+  a1.speak();
+  final a2 = AnimalFactory('dog', 'Rimba', 3);
+  a2.speak();
+  print('Objek sama? ${identical(a1, a2)}');
+  final a3 = AnimalFactory('cat', 'Lembang', 2);
+  a3.speak();
+  print('Ukuran cache: ${AnimalFactory.cacheSize}');
 }</code></pre>
-      </div>
-      
-      <!-- KESIMPULAN CHALLENGE -->
-      <div class="conclusion-box">
-        <strong>Kesimpulan Challenge (Animal Factory):</strong> Challenge ini menggabungkan semua konsep: validasi input yang ketat (nama tidak kosong, umur tidak negatif), subclass selection dinamis, dan caching flyweight. Factory constructor terbukti menjadi pattern yang sangat powerful untuk mengelola pembuatan objek kompleks sekaligus optimal dalam penggunaan memori, seperti keanekaragaman fauna gunung yang unik namun tetap terkelola dengan baik.
-      </div>
-    </div>
-
-    <!-- KESIMPULAN AKHIR - RINGKASAN SEMUA MATERI -->
-    <div class="cyber-card" style="background: #e2dcc8;">
-      <h3><span>🏁</span> KESIMPULAN AKHIR PRAKTIKUM <div class="badge badge-dartpad">Refleksi</div></h3>
-      <p>Berdasarkan implementasi keempat latihan (Connection Pooling, Notification Selector, Shape Caching, Animal Factory) dengan tema GUNUNG, berikut adalah kesimpulan utama mengenai Factory Constructor di bahasa pemrograman Dart:</p>
-      <div class="conclusion-box" style="background:#f5f0e0; border-left-color: #5e3a1c; margin-top: 15px;">
-        <strong>📌 Ringkasan Akhir Factory Constructor:</strong><br/>
-        1. <strong>Pooling & Resource Management:</strong> Factory memungkinkan pengelolaan instance terbatas dengan memeriksa objek idle sebelum membuat yang baru, mencegah resource leak.<br/>
-        2. <strong>Subclass Selection Dinamis:</strong> Factory dapat mengembalikan berbagai tipe turunan berdasarkan parameter runtime tanpa mengubah kode klien (polimorfisme alami).<br/>
-        3. <strong>Flyweight / Caching:</strong> Dengan cache statis internal, factory menghindari duplikasi objek identik, menghemat memori dan mempercepat eksekusi.<br/>
-        4. <strong>Validasi Terpusat:</strong> Semua logika validasi (umur negatif, nama kosong, dll) dapat dipusatkan di factory, memastikan objek yang terbentuk selalu dalam keadaan valid.<br/>
-        5. <strong>Fleksibilitas & Maintainability:</strong> Perubahan cara pembuatan objek cukup di dalam factory tanpa mengganggu seluruh basis kode yang menggunakan factory tersebut.<br/><br/>
-        🏔️ <strong>Kesimpulan Akhir:</strong> Factory Constructor di Dart adalah pattern yang sangat esensial untuk membangun sistem yang robust, hemat memori, mudah dikembangkan, dan sesuai dengan prinsip OOP (Open/Closed, Single Responsibility). Dengan tema gunung, kita belajar bahwa seperti ekosistem pegunungan yang efisien dan teratur, factory constructor mengatur "siklus hidup" objek secara optimal, menjaga keseimbangan resource dan memori aplikasi.
       </div>
     </div>
 
