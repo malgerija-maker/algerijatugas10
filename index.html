@@ -36,7 +36,6 @@
       font-family: 'Poppins', sans-serif;
       line-height: 1.6;
       overflow-x: hidden;
-      /* Background pegunungan dengan gradien dan siluet */
       background-image: 
         linear-gradient(145deg, #b7c9a2 0%, #d9e2cc 40%, #ecf0e6 100%),
         url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" opacity="0.1"><path fill="%233f5c3a" d="M0,600 L200,450 L350,520 L500,380 L650,480 L800,350 L950,420 L1100,300 L1200,360 L1200,800 L0,800 Z"/><path fill="%232d4a2b" d="M0,650 L180,520 L320,600 L480,450 L600,550 L780,430 L900,520 L1050,400 L1200,480 L1200,800 L0,800 Z"/><path fill="%231a361a" d="M0,720 L250,600 L400,680 L550,550 L700,650 L850,530 L1000,620 L1150,500 L1200,580 L1200,800 L0,800 Z"/></svg>');
@@ -45,7 +44,6 @@
       background-size: cover;
     }
 
-    /* Awan dan kabut bergerak */
     .mist {
       position: fixed;
       top: 0;
@@ -80,22 +78,14 @@
     .gerakan {
       font-weight: 900;
       font-size: clamp(2rem, 6vw, 3.5rem);
-      color: var(--accent-green);
       text-transform: uppercase;
       margin-bottom: 10px;
       position: relative;
       display: inline-block;
-      text-shadow: 4px 4px 12px rgba(45, 94, 44, 0.3);
-      letter-spacing: 2px;
       background: linear-gradient(135deg, #2d5e2c, #6c8b4a);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
-      text-shadow: none;
-    }
-    /* Fallback warna solid */
-    @supports not (background-clip: text) {
-      .gerakan { color: #2d5e2c; text-shadow: 2px 2px 0 #b9b28a; }
     }
 
     .info-bar {
@@ -211,25 +201,6 @@
       line-height: 1.8;
     }
 
-    ul {
-      list-style: none;
-      margin-bottom: 25px;
-    }
-
-    ul li {
-      margin-bottom: 12px;
-      padding-left: 35px;
-      position: relative;
-      color: var(--text-dim);
-    }
-
-    ul li::before {
-      content: "⛰️";
-      position: absolute;
-      left: 0;
-      font-size: 1.1rem;
-    }
-
     .code-container {
       margin: 30px 0;
       background: var(--code-bg);
@@ -305,7 +276,6 @@
       border-radius: 48px 48px 0 0;
     }
 
-    /* Modal Styles */
     .modal-overlay {
       display: none;
       position: fixed;
@@ -365,7 +335,6 @@
       text-shadow: 0 2px 4px #2d2b1f;
     }
 
-    /* Media Queries */
     @media (max-width: 768px) {
       .container { margin: 20px auto; padding: 0 10px; }
       header { margin-bottom: 40px; }
@@ -392,18 +361,22 @@
       <h1 class="session-title">TUGAS SESI 10: <span>FACTORY CONSTRUCTORS</span></h1>
     </header>
 
+    <!-- LATIHAN 1 -->
     <div class="cyber-card">
       <h3><span>01</span> LATIHAN 1: CONNECTION POOLING <div class="badge badge-dartpad">Dartpad</div>
       </h3>
-      <p>Connection Pooling adalah teknik yang digunakan dalam pengembangan aplikasi
-        (terutama yang berbasis database) untuk mengelola dan mengoptimalkan pembuatan serta penggunaan koneksi database. Teknik ini bekerja dengan menyimpan kumpulan koneksi database yang sudah dibuat sebelumnya di dalam sebuah "kolam" (pool),
-        sehingga koneksi tersebut dapat digunakan ulang oleh berbagai permintaan dari aplikasi</p>
+      <p>Connection Pooling adalah teknik yang digunakan dalam pengembangan aplikasi (terutama yang berbasis database) untuk mengelola dan mengoptimalkan pembuatan serta penggunaan koneksi database. Teknik ini bekerja dengan menyimpan kumpulan koneksi database yang sudah dibuat sebelumnya di dalam sebuah "kolam" (pool), sehingga koneksi tersebut dapat digunakan ulang oleh berbagai permintaan dari aplikasi.</p>
 
-      <div class="code-container">
-        <div class="code-header"><span class="lang">FILE: libconnection_factory.dart</span></div>
-        <pre><code>// Nama   : M.ALGERIJA HERTYAZ PASLAM
+      <div class="code-container" id="code-connection-factory">
+        <div class="code-header">
+          <span class="lang">FILE: libconnection_factory.dart + test_connection_factory.dart</span>
+          <button class="btn" onclick="runCodeFromText('connectionCode')">▶ Run</button>
+        </div>
+        <pre id="connectionCode"><code>// Nama   : M.ALGERIJA HERTYAZ PASLAM
 // Nim    : 251410021
 // Kelas  : SI2A
+
+import 'dart:math';
 
 class ConnectionFactory {
   final String id;
@@ -415,10 +388,8 @@ class ConnectionFactory {
   static const int maxConnections = 3;
   static final Map<String, List<ConnectionFactory>> _poolRegistry = {};
 
-  // Private constructor
   ConnectionFactory._(this.id, this.dbName, this.host, this.port);
 
-  // Factory constructor
   factory ConnectionFactory(String dbName, {String host = 'localhost', int port = 5432}) {
     final key = '${dbName.toLowerCase()}@$host:$port';
     
@@ -495,56 +466,6 @@ void main() {
   print('║     DEMO CONNECTION POOL - M.ALGERIJA HERTYAZ PASLAM         ║');
   print('║              NIM: 251410021 | Kelas: SI2A                    ║');
   print('╚══════════════════════════════════════════════════════════════╝\n');
-  
-  try {
-    var conn1 = ConnectionFactory('testdb');
-    conn1.query('SELECT * FROM users');
-    ConnectionFactory.printStatus('testdb');
-    
-    var conn2 = ConnectionFactory('testdb');
-    conn2.query('SELECT * FROM products');
-    ConnectionFactory.printStatus('testdb');
-    
-    var conn3 = ConnectionFactory('testdb');
-    conn3.query('SELECT * FROM orders');
-    ConnectionFactory.printStatus('testdb');
-    
-    ConnectionFactory.release(conn1);
-    ConnectionFactory.printStatus('testdb');
-    
-    var conn4 = ConnectionFactory('testdb');
-    conn4.query('SELECT * FROM logs');
-    ConnectionFactory.printStatus('testdb');
-    
-    var conn5 = ConnectionFactory('testdb');
-    conn5.query('SELECT * FROM temp');
-  } catch (e) {
-    print('\n❌ Error: $e');
-  }
-  
-  print('\n══════════════════════════════════════════════════════════════');
-  print('📌 KESIMPULAN: Factory Constructor Connection Pooling');
-  print('   ✅ Membatasi maksimal $maxConnections koneksi aktif');
-  print('   ✅ Melakukan reuse koneksi idle untuk efisiensi memori');
-  print('   ✅ Mencegah resource leak dengan pengelolaan pool');
-  print('══════════════════════════════════════════════════════════════');
-}</code></pre>
-      </div>
-
-      <div class="code-container" id="code-connection-factory">
-        <div class="code-header">
-          <span class="lang">FILE: test_connection_factory.dart</span>
-          <button class="btn" onclick="runCode('code-connection-factory', '2d4e17e7b8467531adc3b17021e4013e')">▶
-            Run</button>
-        </div>
-        <pre><code>// Nama   : M.ALGERIJA HERTYAZ PASLAM
-// Nim    : 251410021
-// Kelas  : SI2A
-
-import 'libconnection_factory.dart';
-
-void main() {
-  print('📌 DEMO SISTEM POOL KONEKSI - ALGERIJA 📌\\n');
 
   final dbName = 'pos_system';
 
@@ -571,7 +492,7 @@ void main() {
   print('🔹 [Koneksi 3] Reuse Koneksi yang Idle 🔹');
   final dbConn3 = ConnectionFactory(dbName);
   dbConn3.query('UPDATE stock SET quantity = 100 WHERE id = 1');
-  print('Apakah dbConn1 identik dengan dbConn3? \${identical(dbConn1, dbConn3)}');
+  print('Apakah dbConn1 identik dengan dbConn3? ${identical(dbConn1, dbConn3)}');
   print('');
 
   print('🔹 [Koneksi 4] Alokasikan Koneksi Baru 🔹');
@@ -587,23 +508,35 @@ void main() {
     final dbConn5 = ConnectionFactory(dbName);
     dbConn5.query('SELECT * FROM audit_logs');
   } catch (e) {
-    print('ERROR DITANGKAP: \$e');
+    print('✅ ERROR BERHASIL DITANGKAP: \$e');
   }
+  
+  print('\n══════════════════════════════════════════════════════════════');
+  print('📌 KESIMPULAN: Factory Constructor Connection Pooling');
+  print('   ✅ Membatasi maksimal ${ConnectionFactory.maxConnections} koneksi aktif');
+  print('   ✅ Melakukan reuse koneksi idle untuk efisiensi memori');
+  print('   ✅ Mencegah resource leak dengan pengelolaan pool');
+  print('══════════════════════════════════════════════════════════════');
 }</code></pre>
       </div>
     </div>
 
+    <!-- LATIHAN 2 -->
     <div class="cyber-card">
       <h3><span>02</span> LATIHAN 2: PLATFORM NOTIFICATION SELECTOR <div class="badge badge-dartpad">Dartpad</div>
       </h3>
-      <p>Subclass Selection adalah proses menentukan atau memilih
-        subclass mana yang akan diinstansiasi (dibuat objeknya) pada saat runtime, berdasarkan kondisi atau parameter tertentu. Pola ini sering muncul ketika superclass memiliki beberapa
-        subclass turunan,
-        dan aplikasi harus secara dinamis memilih salah satu yang sesuai dengan kebutuhan.</p>
+      <p>Subclass Selection adalah proses menentukan atau memilih subclass mana yang akan diinstansiasi (dibuat objeknya) pada saat runtime, berdasarkan kondisi atau parameter tertentu. Pola ini sering muncul ketika superclass memiliki beberapa subclass turunan, dan aplikasi harus secara dinamis memilih salah satu yang sesuai dengan kebutuhan.</p>
 
-      <div class="code-container">
-        <div class="code-header"><span class="lang">FILE: libnotification_factory.dart</span></div>
-        <pre><code>abstract class NotificationFactory {
+      <div class="code-container" id="code-notification-factory">
+        <div class="code-header">
+          <span class="lang">FILE: libnotification_factory.dart + test_notification_factory.dart</span>
+          <button class="btn" onclick="runCodeFromText('notificationCode')">▶ Run</button>
+        </div>
+        <pre id="notificationCode"><code>// Nama   : M.ALGERIJA HERTYAZ PASLAM
+// Nim    : 251410021
+// Kelas  : SI2A
+
+abstract class NotificationFactory {
   String get message;
   void send();
 
@@ -665,59 +598,68 @@ class WindowsNotification implements NotificationFactory {
     print('🪟 [Windows WNS] Toast di desktop:');
     print('   💌 Pesan: "$message"');
   }
-}</code></pre>
-      </div>
-
-      <div class="code-container" id="code-notification-factory">
-        <div class="code-header">
-          <span class="lang">FILE: test_notification_factory.dart</span>
-          <button class="btn" onclick="runCode('code-notification-factory', '09b6496c25ab1662c113836297b35222')">▶
-            Run</button>
-        </div>
-        <pre><code>// Nama   : M.ALGERIJA HERTYAZ PASLAM
-// Nim    : 251410021
-// Kelas  : SI2A
-
-import 'libnotification_factory.dart';
+}
 
 void main() {
-  print('📌 DEMO NOTIFIKASI PLATFORM - ALGERIJA 📌\\n');
+  print('╔══════════════════════════════════════════════════════════════╗');
+  print('║   DEMO NOTIFIKASI PLATFORM - M.ALGERIJA HERTYAZ PASLAM       ║');
+  print('║              NIM: 251410021 | Kelas: SI2A                    ║');
+  print('╚══════════════════════════════════════════════════════════════╝\n');
 
+  print('🔹 Notifikasi ke Android 🔹');
   final androidAlert = NotificationFactory('android', 'Awas longsor! Periksa jalur pendakian.');
   androidAlert.send();
-  print('Tipe: \${androidAlert.runtimeType}\\n');
+  print('Tipe: \${androidAlert.runtimeType}\n');
 
+  print('🔹 Notifikasi ke iOS 🔹');
   final iosAlert = NotificationFactory('ios', 'Cuaca membaik di puncak.');
   iosAlert.send();
-  print('Tipe: \${iosAlert.runtimeType}\\n');
+  print('Tipe: \${iosAlert.runtimeType}\n');
 
+  print('🔹 Notifikasi ke Web 🔹');
   final webAlert = NotificationFactory('web', 'Grup pendaki: jadwal briefing jam 5 sore.');
   webAlert.send();
-  print('Tipe: \${webAlert.runtimeType}\\n');
+  print('Tipe: \${webAlert.runtimeType}\n');
 
+  print('🔹 Notifikasi ke Windows 🔹');
   final windowsAlert = NotificationFactory('windows', 'Update aplikasi peta topografi.');
   windowsAlert.send();
-  print('Tipe: \${windowsAlert.runtimeType}\\n');
+  print('Tipe: \${windowsAlert.runtimeType}\n');
 
+  print('🔸 Uji Platform Tidak Valid 🔸');
   try {
     final invalidAlert = NotificationFactory('linux', 'gagal');
     invalidAlert.send();
   } catch (e) {
-    print('ERROR DITANGKAP: \$e');
+    print('✅ ERROR BERHASIL DITANGKAP: \$e');
   }
+  
+  print('\n══════════════════════════════════════════════════════════════');
+  print('📌 KESIMPULAN: Factory Constructor - Subclass Selection');
+  print('   ✅ Memilih subclass secara dinamis berdasarkan parameter');
+  print('   ✅ Menyembunyikan kompleksitas pembuatan objek');
+  print('   ✅ Meningkatkan fleksibilitas dan pemeliharaan kode');
+  print('══════════════════════════════════════════════════════════════');
 }</code></pre>
       </div>
     </div>
 
+    <!-- LATIHAN 3 -->
     <div class="cyber-card">
-      <h3><span>03</span> LATIHAN 3: SHAPE CACHING (FLYEWIGHT) <div class="badge badge-dartpad">Dartpad</div>
+      <h3><span>03</span> LATIHAN 3: SHAPE CACHING (FLYWEIGHT) <div class="badge badge-dartpad">Dartpad</div>
       </h3>
-      <p>Flyweight Pattern adalah pola desain struktural yang bertujuan untuk meminimalkan penggunaan memori dengan cara berbagi (sharing) data sebanyak mungkin antar objek yang serupa. Pola ini sangat berguna
-        ketika Anda perlu membuat banyak objek dalam jumlah sangat besar,tetapi hanya sedikit variasi data di antara mereka.</p>
+      <p>Flyweight Pattern adalah pola desain struktural yang bertujuan untuk meminimalkan penggunaan memori dengan cara berbagi (sharing) data sebanyak mungkin antar objek yang serupa. Pola ini sangat berguna ketika Anda perlu membuat banyak objek dalam jumlah sangat besar, tetapi hanya sedikit variasi data di antara mereka.</p>
 
-      <div class="code-container">
-        <div class="code-header"><span class="lang">FILE: libshape_factory.dart</span></div>
-        <pre><code>abstract class ShapeFactory {
+      <div class="code-container" id="code-shape-factory">
+        <div class="code-header">
+          <span class="lang">FILE: libshape_factory.dart + test_shape_factory.dart</span>
+          <button class="btn" onclick="runCodeFromText('shapeCode')">▶ Run</button>
+        </div>
+        <pre id="shapeCode"><code>// Nama   : M.ALGERIJA HERTYAZ PASLAM
+// Nim    : 251410021
+// Kelas  : SI2A
+
+abstract class ShapeFactory {
   String get type;
   double get size;
   String get color;
@@ -745,6 +687,7 @@ void main() {
     return shape;
   }
   static int get cacheSize => _flyweightRegistry.length;
+  static void clearCache() => _flyweightRegistry.clear();
 }
 
 class CircleShape implements ShapeFactory {
@@ -754,6 +697,7 @@ class CircleShape implements ShapeFactory {
   CircleShape._(this.size, this.color);
   @override void draw() => print('🔵 Lingkaran (radius: $size, warna: $color)');
 }
+
 class SquareShape implements ShapeFactory {
   @override final String type = 'Square';
   @override final double size;
@@ -761,122 +705,193 @@ class SquareShape implements ShapeFactory {
   SquareShape._(this.size, this.color);
   @override void draw() => print('🟩 Persegi (sisi: $size, warna: $color)');
 }
+
 class TriangleShape implements ShapeFactory {
   @override final String type = 'Triangle';
   @override final double size;
   @override final String color;
   TriangleShape._(this.size, this.color);
   @override void draw() => print('🔺 Segitiga (dimensi: $size, warna: $color)');
-}</code></pre>
-      </div>
-
-      <div class="code-container" id="code-shape-factory">
-        <div class="code-header">
-          <span class="lang">FILE: test_shape_factory.dart</span>
-          <button class="btn" onclick="runCode('code-shape-factory', '0f662a78fed8479fa18bc118ae6d3240')">▶ Run</button>
-        </div>
-        <pre><code>// Nama   : M.ALGERIJA HERTYAZ PASLAM
-// Nim    : 251410021
-// Kelas  : SI2A
-
-import 'libshape_factory.dart';
+}
 
 void main() {
-  print('📌 DEMO SHAPE CACHING - ALGERIJA 📌\n');
+  print('╔══════════════════════════════════════════════════════════════╗');
+  print('║      DEMO SHAPE CACHING - M.ALGERIJA HERTYAZ PASLAM          ║');
+  print('║              NIM: 251410021 | Kelas: SI2A                    ║');
+  print('╚══════════════════════════════════════════════════════════════╝\n');
+
+  print('🔹 Membuat Lingkaran Hijau (R=10) 🔹');
   final shape1 = ShapeFactory('circle', 10.0, 'Hijau Gunung');
   shape1.draw();
+  print('Ukuran cache: ${ShapeFactory.cacheSize}\n');
+
+  print('🔹 Membuat Lingkaran Hijau Lagi (Harus Cache Hit) 🔹');
   final shape2 = ShapeFactory('circle', 10.0, 'Hijau Gunung');
   shape2.draw();
-  print('Identik? ${identical(shape1, shape2)}');
+  print('Apakah shape1 dan shape2 identik? ${identical(shape1, shape2)}');
+  print('Ukuran cache: ${ShapeFactory.cacheSize}\n');
+
+  print('🔹 Membuat Persegi Tanah (S=15) 🔹');
   final shape3 = ShapeFactory('square', 15.0, 'Tanah');
   shape3.draw();
-  print('Ukuran cache: ${ShapeFactory.cacheSize}');
+  print('Ukuran cache: ${ShapeFactory.cacheSize}\n');
+
+  print('🔹 Membuat Segitiga Merah (S=12) 🔹');
+  final shape4 = ShapeFactory('triangle', 12.0, 'Merah');
+  shape4.draw();
+  print('Ukuran cache: ${ShapeFactory.cacheSize}\n');
+
+  print('🔸 Uji Input Ukuran Negatif 🔸');
+  try {
+    final invalidShape = ShapeFactory('circle', -5.0, 'Biru');
+    invalidShape.draw();
+  } catch (e) {
+    print('✅ ERROR DITANGKAP: \$e');
+  }
+  
+  print('\n══════════════════════════════════════════════════════════════');
+  print('📌 KESIMPULAN: Flyweight Pattern dengan Factory Constructor');
+  print('   ✅ Menghindari duplikasi objek identik');
+  print('   ✅ Menghemat memori secara signifikan');
+  print('   ✅ Mempercepat eksekusi program');
+  print('══════════════════════════════════════════════════════════════');
 }</code></pre>
       </div>
     </div>
 
+    <!-- CHALLENGE -->
     <div class="cyber-card">
       <h3><span>04</span> CHALLENGE: ANIMAL FACTORY <div class="badge badge-dartpad">Challenge</div>
       </h3>
-      <p>Factory Constructor adalah metode (biasanya static method atau method khusus)
-        di dalam kelas factory yang bertanggung jawab untuk membuat dan mengembalikan instance dari berbagai subclass berdasarkan parameter input.
-        Di sini, AnimalFactory bertindak sebagai "pabrik" yang memproduksi berbagai jenis hewan.</p>
+      <p>Factory Constructor adalah metode (biasanya static method atau method khusus) di dalam kelas factory yang bertanggung jawab untuk membuat dan mengembalikan instance dari berbagai subclass berdasarkan parameter input. Di sini, AnimalFactory bertindak sebagai "pabrik" yang memproduksi berbagai jenis hewan.</p>
 
-      <div class="code-container">
-        <div class="code-header"><span class="lang">FILE: libanimal_factory.dart</span></div>
-        <pre><code>abstract class AnimalFactory {
+      <div class="code-container" id="code-animal-factory">
+        <div class="code-header">
+          <span class="lang">FILE: libanimal_factory.dart + test_animal_factory.dart</span>
+          <button class="btn" onclick="runCodeFromText('animalCode')">▶ Run</button>
+        </div>
+        <pre id="animalCode"><code>// Nama   : M.ALGERIJA HERTYAZ PASLAM
+// Nim    : 251410021
+// Kelas  : SI2A
+
+abstract class AnimalFactory {
   String get name;
   int get age;
   String get sound;
   void speak();
+  
   static final Map<String, AnimalFactory> _animalRegistry = {};
 
   factory AnimalFactory(String type, String name, int age) {
-    if (name.trim().isEmpty) throw ArgumentError('Nama hewan tidak boleh kosong');
-    if (age < 0) throw ArgumentError('Umur hewan tidak boleh negatif');
+    if (name.trim().isEmpty) throw ArgumentError('❌ Nama hewan tidak boleh kosong');
+    if (age < 0) throw ArgumentError('❌ Umur hewan tidak boleh negatif');
+    
     final key = 'animal::${type.toLowerCase()}::${name.toLowerCase().trim()}::$age';
+    
     if (_animalRegistry.containsKey(key)) {
       print('🏔️ [Cache Hit] Memakai hewan dari cache: $key');
       return _animalRegistry[key]!;
     }
-    print('🌿 [Cache Miss] Hewan baru didaftarkan: $key');
+    
+    print('🌿 [Cache Miss] Membuat hewan baru: $key');
     AnimalFactory animal;
     switch (type.toLowerCase()) {
       case 'dog': animal = DogAnimal._(name, age); break;
       case 'cat': animal = CatAnimal._(name, age); break;
       case 'bird': animal = BirdAnimal._(name, age); break;
-      default: throw ArgumentError('Tipe hewan tidak dikenal');
+      default: throw ArgumentError('❌ Tipe hewan "$type" tidak dikenal! Pilih: dog, cat, bird');
     }
     _animalRegistry[key] = animal;
     return animal;
   }
+  
   static int get cacheSize => _animalRegistry.length;
+  static void clearCache() => _animalRegistry.clear();
 }
 
 class DogAnimal implements AnimalFactory {
   @override final String name;
   @override final int age;
-  @override final String sound = 'Guk Guk!';
+  @override final String sound = 'Guk Guk! 🐕';
+  
   DogAnimal._(this.name, this.age);
-  @override void speak() => print('🐶 Anjing $name ($age tahun): $sound');
+  
+  @override
+  void speak() => print('🐶 Anjing "$name" ($age tahun): $sound');
 }
+
 class CatAnimal implements AnimalFactory {
   @override final String name;
   @override final int age;
-  @override final String sound = 'Meong~';
+  @override final String sound = 'Meong~ 🐱';
+  
   CatAnimal._(this.name, this.age);
-  @override void speak() => print('🐱 Kucing $name ($age tahun): $sound');
+  
+  @override
+  void speak() => print('🐱 Kucing "$name" ($age tahun): $sound');
 }
+
 class BirdAnimal implements AnimalFactory {
   @override final String name;
   @override final int age;
-  @override final String sound = 'Cit cit';
+  @override final String sound = 'Cit cit 🐦';
+  
   BirdAnimal._(this.name, this.age);
-  @override void speak() => print('🐦 Burung $name ($age tahun): $sound');
-}</code></pre>
-      </div>
-
-      <div class="code-container" id="code-animal-factory">
-        <div class="code-header">
-          <span class="lang">FILE: test_animal_factory.dart</span>
-          <button class="btn" onclick="runCode('code-animal-factory', '3167a5fdb0c8398076c269ad2ad5e692')">▶ Run</button>
-        </div>
-        <pre><code>// Nama   : M.ALGERIJA HERTYAZ PASLAM
-// Nim    : 251410021
-// Kelas  : SI2A
-
-import 'libanimal_factory.dart';
+  
+  @override
+  void speak() => print('🐦 Burung "$name" ($age tahun): $sound');
+}
 
 void main() {
-  print('📌 ANIMAL FACTORY - GUNUNG WILD 📌\n');
+  print('╔══════════════════════════════════════════════════════════════╗');
+  print('║      ANIMAL FACTORY CHALLENGE - M.ALGERIJA HERTYAZ PASLAM    ║');
+  print('║              NIM: 251410021 | Kelas: SI2A                    ║');
+  print('╚══════════════════════════════════════════════════════════════╝\n');
+
+  print('🔹 Membuat Hewan: Anjing "Rimba" (3 tahun) 🔹');
   final a1 = AnimalFactory('dog', 'Rimba', 3);
   a1.speak();
+  print('Ukuran cache: ${AnimalFactory.cacheSize}\n');
+
+  print('🔹 Membuat Hewan Sama: Anjing "Rimba" (3 tahun) - Harus Cache Hit 🔹');
   final a2 = AnimalFactory('dog', 'Rimba', 3);
   a2.speak();
-  print('Objek sama? ${identical(a1, a2)}');
+  print('Apakah a1 dan a2 identik? ${identical(a1, a2)}');
+  print('Ukuran cache: ${AnimalFactory.cacheSize}\n');
+
+  print('🔹 Membuat Hewan Baru: Kucing "Lembang" (2 tahun) 🔹');
   final a3 = AnimalFactory('cat', 'Lembang', 2);
   a3.speak();
-  print('Ukuran cache: ${AnimalFactory.cacheSize}');
+  print('Ukuran cache: ${AnimalFactory.cacheSize}\n');
+
+  print('🔹 Membuat Hewan: Burung "Cendrawasih" (1 tahun) 🔹');
+  final a4 = AnimalFactory('bird', 'Cendrawasih', 1);
+  a4.speak();
+  print('Ukuran cache: ${AnimalFactory.cacheSize}\n');
+
+  print('🔸 Uji Validasi Nama Kosong 🔸');
+  try {
+    final invalid = AnimalFactory('dog', '', 2);
+    invalid.speak();
+  } catch (e) {
+    print('✅ ERROR DITANGKAP: \$e');
+  }
+  
+  print('\n🔸 Uji Validasi Umur Negatif 🔸');
+  try {
+    final invalid2 = AnimalFactory('cat', 'Milo', -1);
+    invalid2.speak();
+  } catch (e) {
+    print('✅ ERROR DITANGKAP: \$e');
+  }
+  
+  print('\n══════════════════════════════════════════════════════════════');
+  print('📌 KESIMPULAN AKHIR: Factory Constructor di Dart');
+  print('   1️⃣ Connection Pooling → Mengelola resource secara efisien');
+  print('   2️⃣ Subclass Selection → Memilih subclass secara dinamis');
+  print('   3️⃣ Flyweight Pattern → Caching untuk hemat memori');
+  print('   4️⃣ Validasi Terpusat → Menjamin objek selalu valid');
+  print('══════════════════════════════════════════════════════════════');
 }</code></pre>
       </div>
     </div>
@@ -894,19 +909,18 @@ void main() {
   </div>
 
   <script>
-    function runCode(id, gistId = null) {
+    function runCodeFromText(elementId) {
       const modal = document.getElementById('codeModal');
       const iframeContainer = document.getElementById('modalIframeContainer');
+      const codeElement = document.getElementById(elementId);
+      const fullCode = codeElement.innerText;
+      const encodedCode = encodeURIComponent(fullCode);
+      
       modal.classList.add('active');
       document.body.style.overflow = 'hidden';
+      
       let iframe = document.createElement('iframe');
-      if (gistId) {
-        iframe.src = `https://dartpad.dev/embed-inline.html?theme=dark&run=true&id=${gistId}`;
-      } else {
-        const code = document.getElementById(id).querySelector('code').innerText;
-        const encodedCode = encodeURIComponent(code);
-        iframe.src = `https://dartpad.dev/embed-inline.html?theme=dark&run=true&code=${encodedCode}`;
-      }
+      iframe.src = `https://dartpad.dev/embed-inline.html?theme=dark&run=true&code=${encodedCode}`;
       iframeContainer.innerHTML = '';
       iframeContainer.appendChild(iframe);
     }
