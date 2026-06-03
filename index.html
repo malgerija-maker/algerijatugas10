@@ -372,151 +372,168 @@
           <span class="lang">FILE: libconnection_factory.dart + test_connection_factory.dart</span>
           <button class="btn" onclick="runCodeFromText('connectionCode')">▶ Run</button>
         </div>
-        <pre id="connectionCode"><code>// Nama   : M.ALGERIJA HERTYAZ PASLAM
+        <pre id="connectionCode"><code>// Nama   : M. ALGERIJA HERTYAZ PASLAM
 // Nim    : 251410021
-// Kelas  : SI2A
+// Kelas  : SIA2
 
-import 'dart:math';
+import 'dart:math' as math;
 
-class ConnectionFactory {
-  final String id;
-  final String dbName;
-  final String host;
-  final int port;
-  bool isReleased = true;
+abstract class ShapeFactory {
+  String get type;
+  double get size;
+  String get color;
+  void draw();
 
-  static const int maxConnections = 3;
-  static final Map<String, List<ConnectionFactory>> _poolRegistry = {};
+  static final Map<String, ShapeFactory> _flyweightRegistry = {};
 
-  ConnectionFactory._(this.id, this.dbName, this.host, this.port);
-
-  factory ConnectionFactory(String dbName, {String host = 'localhost', int port = 5432}) {
-    final key = '${dbName.toLowerCase()}@$host:$port';
-    
-    if (!_poolRegistry.containsKey(key)) {
-      _poolRegistry[key] = [];
+  factory ShapeFactory(String type, double size, String color) {
+    if (size <= 0) {
+      throw ArgumentError('💫 Ukuran bentuk (size) harus lebih besar dari 0! 🦋');
+    }
+    if (color.trim().isEmpty) {
+      throw ArgumentError('💫 Warna bentuk tidak boleh kosong! 🦋');
     }
 
-    final connList = _poolRegistry[key]!;
+    final key = 'shape:${type.toLowerCase()}:${color.trim().toLowerCase()}:$size';
 
-    for (var conn in connList) {
-      if (conn.isReleased) {
-        conn.isReleased = false;
-        print('🏔️ [Pool Hit] Menggunakan koneksi idle: ${conn.id} untuk $key');
-        return conn;
-      }
+    if (_flyweightRegistry.containsKey(key)) {
+      print('💫 [Cache Hit] Reusing existing Shape instance: $key');
+      return _flyweightRegistry[key]!;
     }
 
-    if (connList.length < maxConnections) {
-      final connIdentifier = 'conn_${dbName.toLowerCase()}_${connList.length + 1}';
-      final newConnection = ConnectionFactory._(connIdentifier, dbName, host, port);
-      newConnection.isReleased = false;
-      connList.add(newConnection);
-      print('🌲 [Pool Miss] Membuat koneksi baru: $connIdentifier untuk $key');
-      return newConnection;
+    print('🦋 [Cache Miss] Creating new Shape instance for: $key');
+    ShapeFactory shapeInstance;
+    switch (type.toLowerCase()) {
+      case 'circle':
+        shapeInstance = CircleShape._(size, color);
+        break;
+      case 'square':
+        shapeInstance = SquareShape._(size, color);
+        break;
+      case 'triangle':
+        shapeInstance = TriangleShape._(size, color);
+        break;
+      default:
+        throw ArgumentError('💫 Tipe bentuk "$type" tidak didukung! Pilih circle, square, atau triangle. 🦋');
     }
 
-    throw StateError('⛰️ Batas maksimum koneksi database tercapai ($maxConnections) untuk pool $key!');
+    _flyweightRegistry[key] = shapeInstance;
+    return shapeInstance;
   }
 
-  void query(String sql) {
-    if (isReleased) {
-      throw StateError('🍃 Koneksi $id telah dilepas! Hubungkan kembali sebelum query.');
-    }
-    print('🏔️ [$id] Menjalankan query: "$sql" pada database "$dbName" ($host:$port)');
-  }
+  static int get cacheSize => _flyweightRegistry.length;
 
-  static void release(ConnectionFactory conn) {
-    if (conn.isReleased) {
-      print('⚠️ [Peringatan] Koneksi ${conn.id} sudah dilepas!');
-      return;
-    }
-    conn.isReleased = true;
-    print('🍃 [Pool Release] Koneksi ${conn.id} berhasil dikembalikan ke pool.');
+  static void clearCache() {
+    _flyweightRegistry.clear();
+    print('🔸 [Cache Clear] Shape cache successfully cleared.');
   }
+}
 
-  static void printStatus(String dbName, {String host = 'localhost', int port = 5432}) {
-    final key = '${dbName.toLowerCase()}@$host:$port';
-    final connList = _poolRegistry[key];
-    
-    print('\n⛰️ =================================');
-    print('STATUS POOL KONEKSI ($key)');
-    print('=================================');
-    
-    if (connList == null || connList.isEmpty) {
-      print('Belum ada koneksi yang terdaftar.');
-    } else {
-      for (var conn in connList) {
-        final status = conn.isReleased ? "IDLE / TERSEDIA 🍃" : "ACTIVE / SEDANG DIGUNAKAN 🏔️";
-        print(' - ${conn.id}: [$status]');
-      }
-      print('\nTotal koneksi: ${connList.length}/$maxConnections');
-    }
-    print('=================================\n');
-  }
+class CircleShape implements ShapeFactory {
+  @override
+  final String type = 'Circle';
+  @override
+  final double size;
+  @override
+  final String color;
+
+  CircleShape._(this.size, this.color);
 
   @override
-  String toString() {
-    return 'ConnectionFactory(id: $id, database: $dbName, host: $host, port: $port, status: ${isReleased ? "Idle" : "Active"})';
+  void draw() {
+    print('🔵 [Drawing] Circle (radius: $size, color: $color)');
+  }
+}
+
+class SquareShape implements ShapeFactory {
+  @override
+  final String type = 'Square';
+  @override
+  final double size;
+  @override
+  final String color;
+
+  SquareShape._(this.size, this.color);
+
+  @override
+  void draw() {
+    print('🟩 [Drawing] Square (side: $size, color: $color)');
+  }
+}
+
+class TriangleShape implements ShapeFactory {
+  @override
+  final String type = 'Triangle';
+  @override
+  final double size;
+  @override
+  final String color;
+
+  TriangleShape._(this.size, this.color);
+
+  @override
+  void draw() {
+    print('🔺 [Drawing] Triangle (dimension: $size, color: $color)');
   }
 }
 
 void main() {
-  print('╔══════════════════════════════════════════════════════════════╗');
-  print('║     DEMO CONNECTION POOL - M.ALGERIJA HERTYAZ PASLAM         ║');
-  print('║              NIM: 251410021 | Kelas: SI2A                    ║');
-  print('╚══════════════════════════════════════════════════════════════╝\n');
+  print('📌 DEMO SHAPE FACTORY & CACHING - ALGERIJA📌');
+  print('================================================\n');
 
-  final dbName = 'pos_system';
+  print('🔹 [Shape 1] Buat Lingkaran Biru R=10.0 🔹');
+  final shape1 = ShapeFactory('circle', 10.0, 'Biru');
+  shape1.draw();
+  print('Ukuran Cache saat ini: ${ShapeFactory.cacheSize}\n');
 
-  print('🔹 [Koneksi 1] Alokasikan Koneksi Baru 🔹');
-  final dbConn1 = ConnectionFactory(dbName);
-  dbConn1.query('SELECT * FROM users');
+  print('🔹 [Shape 2] Buat Ulang Lingkaran Biru R=10.0 (Harus Cache Hit) 🔹');
+  final shape2 = ShapeFactory('circle', 10.0, 'Biru');
+  shape2.draw();
+  print('Ukuran Cache saat ini: ${ShapeFactory.cacheSize}');
+  print('Apakah Shape 1 identik dengan Shape 2? ${identical(shape1, shape2)}');
   print('');
 
-  print('🔹 [Koneksi 2] Alokasikan Koneksi Baru 🔹');
-  final dbConn2 = ConnectionFactory(dbName);
-  dbConn2.query('SELECT * FROM products');
+  print('🔹 [Shape 3] Buat Persegi Merah S=20.0 🔹');
+  final shape3 = ShapeFactory('square', 20.0, 'Merah');
+  shape3.draw();
+  print('Ukuran Cache saat ini: ${ShapeFactory.cacheSize}\n');
+
+  print('🔹 [Shape 4] Buat Lingkaran Merah R=10.0 🔹');
+  final shape4 = ShapeFactory('circle', 10.0, 'Merah');
+  shape4.draw();
+  print('Ukuran Cache saat ini: ${ShapeFactory.cacheSize}');
+  print('Apakah Shape 1 identik dengan Shape 4? ${identical(shape1, shape4)}');
   print('');
 
-  ConnectionFactory.printStatus(dbName);
-  print('');
-
-  print('🔸 Kembalikan Koneksi 1 ke Pool 🔸');
-  ConnectionFactory.release(dbConn1);
-  print('');
-
-  ConnectionFactory.printStatus(dbName);
-  print('');
-
-  print('🔹 [Koneksi 3] Reuse Koneksi yang Idle 🔹');
-  final dbConn3 = ConnectionFactory(dbName);
-  dbConn3.query('UPDATE stock SET quantity = 100 WHERE id = 1');
-  print('Apakah dbConn1 identik dengan dbConn3? ${identical(dbConn1, dbConn3)}');
-  print('');
-
-  print('🔹 [Koneksi 4] Alokasikan Koneksi Baru 🔹');
-  final dbConn4 = ConnectionFactory(dbName);
-  dbConn4.query('INSERT INTO transaction_history VALUES (1, 50000)');
-  print('');
-
-  ConnectionFactory.printStatus(dbName);
-  print('');
-
-  print('🔸 Uji Batas Maksimum Koneksi (Ekspektasi Error) 🔸');
+  print('🔸 Uji Input Ukuran Negatif (Ekspektasi Error) 🔸');
   try {
-    final dbConn5 = ConnectionFactory(dbName);
-    dbConn5.query('SELECT * FROM audit_logs');
+    final invalidShape = ShapeFactory('triangle', -5.0, 'Hijau');
+    invalidShape.draw();
   } catch (e) {
-    print('✅ ERROR BERHASIL DITANGKAP: \$e');
+    print('ERROR DITANGKAP: $e');
   }
-  
-  print('\n══════════════════════════════════════════════════════════════');
-  print('📌 KESIMPULAN: Factory Constructor Connection Pooling');
-  print('   ✅ Membatasi maksimal ${ConnectionFactory.maxConnections} koneksi aktif');
-  print('   ✅ Melakukan reuse koneksi idle untuk efisiensi memori');
-  print('   ✅ Mencegah resource leak dengan pengelolaan pool');
-  print('══════════════════════════════════════════════════════════════');
+  print('');
+
+  print('🔸 Uji Input Warna Kosong (Ekspektasi Error) 🔸');
+  try {
+    final invalidColorShape = ShapeFactory('triangle', 12.0, '');
+    invalidColorShape.draw();
+  } catch (e) {
+    print('ERROR DITANGKAP: $e');
+  }
+  print('');
+
+  print('🔸 Uji Input Tipe Bentuk Tidak Valid (Ekspektasi Error) 🔸');
+  try {
+    final invalidTypeShape = ShapeFactory('pentagon', 15.0, 'Kuning');
+    invalidTypeShape.draw();
+  } catch (e) {
+    print('ERROR DITANGKAP: $e');
+  }
+  print('');
+
+  print('================================================');
+  print('📌 DEMO SELESAI 📌');
 }</code></pre>
       </div>
     </div>
