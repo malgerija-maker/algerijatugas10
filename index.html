@@ -458,9 +458,10 @@
     <div class="cyber-card">
       <h3><span>01</span> LATIHAN 1: CONNECTION POOLING <div class="badge">Dartpad</div>
       </h3>
-      <p>Menghemat alokasi memori melalui pola <strong>Database Connection Pooling</strong> menggunakan Factory Constructor. Jumlah
-        koneksi aktif dibatasi maksimal 3 koneksi, dan koneksi yang telah dilepas (<em>idle</em>) akan secara otomatis
-        dimanfaatkan kembali.</p>
+      <p>Connection Pooling adalah teknik yang digunakan dalam pengembangan aplikasi (terutama yang berbasis database) untuk mengelola
+        dan mengoptimalkan pembuatan serta penggunaan koneksi database. Teknik ini bekerja dengan menyimpan kumpulan koneksi database
+        yang sudah dibuat sebelumnya di dalam sebuah "kolam" (pool),
+        sehingga koneksi tersebut dapat digunakan ulang oleh berbagai permintaan dari aplikasi..</p>
 
       <div class="code-container">
         <div class="code-header"><span class="lang">FILE: libconnection_factory.dart</span></div>
@@ -545,7 +546,7 @@ class ConnectionFactory {
       <div class="code-container" id="code-connection-factory">
         <div class="code-header">
           <span class="lang">FILE: test_connection_factory.dart</span>
-          <button class="btn" onclick="runCode('code-connection-factory', 'fdab36c1d70e25a4ff3c8e903f52316c')">▶ RUN</button>
+          <button class="btn" onclick="runCode('code-connection-factory', '2d4e17e7b8467531adc3b17021e4013e')">▶ RUN</button>
         </div>
         <pre><code>// Nama   : M.ALGERIJA HERTYAZ PASLAM
 // Nim    : 251410021
@@ -606,9 +607,10 @@ void main() {
     <div class="cyber-card">
       <h3><span>02</span> LATIHAN 2: PLATFORM NOTIFICATION SELECTOR <div class="badge">Dartpad</div>
       </h3>
-      <p>Menerapkan <strong>Subclass Selection</strong> melalui Factory Constructor. Klien memanggil satu interface terpadu,
-        sedangkan factory constructor secara dinamis mengembalikan instansi subclass yang spesifik (FCM, APNS, WebPush,
-        atau WNS) sesuai platform target.</p>
+      <p>Subclass Selection adalah proses menentukan atau memilih subclass mana yang akan diinstansiasi
+        (dibuat objeknya) pada saat runtime, berdasarkan kondisi atau parameter tertentu. Pola ini sering muncul ketika
+        superclass memiliki beberapa subclass turunan,
+        dan aplikasi harus secara dinamis memilih salah satu yang sesuai dengan kebutuhan..</p>
 
       <div class="code-container">
         <div class="code-header"><span class="lang">FILE: libnotification_factory.dart</span></div>
@@ -692,7 +694,7 @@ class WindowsNotification implements NotificationFactory {
       <div class="code-container" id="code-notification-factory">
         <div class="code-header">
           <span class="lang">FILE: test_notification_factory.dart</span>
-          <button class="btn" onclick="runCode('code-notification-factory', '428e7f7145a1d2a4ac3efe5a1ec98f5d')">▶ RUN</button>
+          <button class="btn" onclick="runCode('code-notification-factory', '09b6496c25ab1662c113836297b35222')">▶ RUN</button>
         </div>
         <pre><code>// Nama   : M.ALGERIJA HERTYAZ PASLAM
 // Nim    : 251410021
@@ -737,9 +739,9 @@ void main() {
     <div class="cyber-card">
       <h3><span>03</span> LATIHAN 3: SHAPE CACHING <div class="badge">Dartpad</div>
       </h3>
-      <p>Menerapkan konsep <strong>Flyweight Pattern</strong> melalui caching bentuk (<em>shape</em>). Apabila dipanggil instansi bentuk
-        dengan tipe, ukuran, dan warna yang sama persis, sistem akan mengambil instansi yang sudah ada secara instan
-        dari cache statis internal.</p>
+      <p>Flyweight Pattern adalah pola desain struktural yang bertujuan untuk meminimalkan penggunaan memori dengan cara berbagi
+        (sharing) data sebanyak mungkin antar objek yang serupa. Pola ini sangat berguna ketika Anda perlu
+        membuat banyak objek dalam jumlah sangat besar, tetapi hanya sedikit variasi data di antara mereka..</p>
 
       <div class="code-container">
         <div class="code-header"><span class="lang">FILE: libshape_factory.dart</span></div>
@@ -850,7 +852,7 @@ class TriangleShape implements ShapeFactory {
       <div class="code-container" id="code-shape-factory">
         <div class="code-header">
           <span class="lang">FILE: test_shape_factory.dart</span>
-          <button class="btn" onclick="runCode('code-shape-factory', '028898dc60b97c520feb8e06e53e0c6c')">▶ RUN</button>
+          <button class="btn" onclick="runCode('code-shape-factory', '0f662a78fed8479fa18bc118ae6d3240')">▶ RUN</button>
         </div>
         <pre><code>// Nama   : M.ALGERIJA HERTYAZ PASLAM
 // Nim    : 251410021
@@ -917,9 +919,12 @@ void main() {
     <div class="cyber-card">
       <h3><span>04</span> CHALLENGE: ANIMAL FACTORY <div class="badge">Challenge</div>
       </h3>
-      <p>Mengintegrasikan konsep-konsep Factory Constructor ke dalam sebuah model <code>AnimalFactory</code> kompleks yang
-        mengutamakan validasi parameter masukan ketat (nama kosong, umur negatif), Subclass Selection dinamis, serta
-        caching multi-properti statis.</p>
+      <p>Factory Constructor adalah metode
+        (biasanya static method atau method khusus) di dalam kelas factory yang bertanggung
+        jawab untuk membuat dan mengembalikan instance dari berbagai subclass berdasarkan parameter input. Di sini,
+        AnimalFactory bertindak sebagai "pabrik" yang memproduksi berbagai jenis hewan.
+
+.</p>
 
       <div class="code-container">
         <div class="code-header"><span class="lang">FILE: libanimal_factory.dart</span></div>
@@ -1030,7 +1035,7 @@ class BirdAnimal implements AnimalFactory {
       <div class="code-container" id="code-animal-factory">
         <div class="code-header">
           <span class="lang">FILE: test_animal_factory.dart</span>
-          <button class="btn" onclick="runCode('code-animal-factory', '29ee581ae5d641e3bac0dd7808121927')">▶ RUN</button>
+          <button class="btn" onclick="runCode('code-animal-factory', '3167a5fdb0c8398076c269ad2ad5e692')">▶ RUN</button>
         </div>
         <pre><code>// Nama   : M.ALGERIJA HERTYAZ PASLAM
 // Nim    : 251410021
