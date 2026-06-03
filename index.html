@@ -1,1 +1,600 @@
+<!DOCTYPE html>
+<html lang="id">
 
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tugas Sesi 10 - M.Algerija Hertyaz Paslam</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;900&family=Fira+Code:wght@400;500&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      /* TEMA GUNUNG: Nuansa bumi, hutan, dan kabut pegunungan */
+      --bg-color: #d9e2cc;
+      --card-bg: rgba(245, 240, 225, 0.85);
+      --accent-green: #2d5e2c;
+      --accent-moss: #4a6741;
+      --accent-earth: #8b5a2b;
+      --text-main: #2c3e2f;
+      --text-dim: #4a5b44;
+      --code-bg: #eff3e8;
+      --border-color: #b9b28a;
+      --shadow-color: rgba(45, 94, 44, 0.15);
+      --conclusion-bg: #e8e0c8;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      user-select: none;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: 'Poppins', sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+      background-image: 
+        linear-gradient(145deg, #b7c9a2 0%, #d9e2cc 40%, #ecf0e6 100%),
+        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" opacity="0.1"><path fill="%233f5c3a" d="M0,600 L200,450 L350,520 L500,380 L650,480 L800,350 L950,420 L1100,300 L1200,360 L1200,800 L0,800 Z"/><path fill="%232d4a2b" d="M0,650 L180,520 L320,600 L480,450 L600,550 L780,430 L900,520 L1050,400 L1200,480 L1200,800 L0,800 Z"/><path fill="%231a361a" d="M0,720 L250,600 L400,680 L550,550 L700,650 L850,530 L1000,620 L1150,500 L1200,580 L1200,800 L0,800 Z"/></svg>');
+      background-repeat: no-repeat;
+      background-position: bottom;
+      background-size: cover;
+    }
+
+    .mist {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      pointer-events: none;
+      background: radial-gradient(ellipse at 30% 50%, rgba(210, 225, 190, 0.3), transparent 70%);
+      animation: drift 40s linear infinite;
+    }
+
+    @keyframes drift {
+      0% { transform: translateX(-5%) translateY(0%); opacity: 0.4;}
+      50% { transform: translateX(5%) translateY(2%); opacity: 0.7;}
+      100% { transform: translateX(-5%) translateY(0%); opacity: 0.4;}
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 60px auto;
+      padding: 0 20px;
+      position: relative;
+      z-index: 2;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 80px;
+    }
+
+    .gerakan {
+      font-weight: 900;
+      font-size: clamp(2rem, 6vw, 3.5rem);
+      color: var(--accent-green);
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      position: relative;
+      display: inline-block;
+      background: linear-gradient(135deg, #2d5e2c, #6c8b4a);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .info-bar {
+      text-align: center;
+      margin-bottom: 60px;
+      font-weight: 600;
+      color: var(--accent-earth);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      font-size: 0.95rem;
+      background: rgba(100, 70, 40, 0.1);
+      display: inline-block;
+      padding: 8px 24px;
+      border-radius: 60px;
+      backdrop-filter: blur(4px);
+    }
+
+    .info-bar b {
+      color: var(--accent-green);
+      font-weight: 800;
+    }
+
+    .session-title {
+      font-weight: 900;
+      text-align: center;
+      color: var(--accent-green);
+      font-size: 1.8rem;
+      margin-bottom: 80px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      border-bottom: 3px solid var(--border-color);
+      padding-bottom: 20px;
+      display: inline-block;
+      width: auto;
+      background: rgba(255,250,225,0.5);
+      padding: 12px 30px;
+      border-radius: 60px;
+      backdrop-filter: blur(4px);
+    }
+
+    .session-title span {
+      color: var(--accent-earth);
+    }
+
+    .cyber-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      border: 2px solid rgba(139, 90, 43, 0.3);
+      padding: 40px;
+      margin-bottom: 50px;
+      border-radius: 48px 32px 48px 32px;
+      position: relative;
+      transition: all 0.3s ease;
+      box-shadow: 0 20px 30px var(--shadow-color);
+    }
+
+    .cyber-card::before {
+      content: "🏔️";
+      position: absolute;
+      top: -18px;
+      left: 30px;
+      font-size: 2rem;
+      filter: drop-shadow(0 4px 4px rgba(0,0,0,0.1));
+    }
+
+    .cyber-card:hover {
+      border-color: var(--accent-green);
+      transform: translateY(-4px);
+      box-shadow: 0 30px 40px rgba(45, 94, 44, 0.2);
+      background: rgba(250, 248, 235, 0.9);
+    }
+
+    h3 {
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: var(--accent-green);
+      margin-bottom: 25px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    h3 span {
+      font-size: 0.85rem;
+      background: var(--accent-moss);
+      color: white;
+      padding: 3px 12px;
+      border-radius: 50px;
+      font-weight: 700;
+    }
+
+    .badge {
+      font-size: 0.75rem;
+      padding: 3px 12px;
+      border-radius: 50px;
+      text-transform: uppercase;
+      margin-left: auto;
+      letter-spacing: 1px;
+      font-weight: bold;
+    }
+
+    .badge-dartpad {
+      background: rgba(45, 94, 44, 0.15);
+      color: var(--accent-green);
+      border: 1px solid var(--accent-green);
+    }
+
+    p {
+      color: var(--text-dim);
+      font-size: 0.98rem;
+      margin-bottom: 25px;
+      line-height: 1.8;
+    }
+
+    .conclusion-box {
+      background: var(--conclusion-bg);
+      border-left: 6px solid var(--accent-green);
+      padding: 18px 22px;
+      margin: 25px 0 10px 0;
+      border-radius: 20px;
+      font-size: 0.92rem;
+      color: #3a4a33;
+      box-shadow: 0 5px 12px rgba(0,0,0,0.05);
+    }
+
+    .conclusion-box strong {
+      color: var(--accent-earth);
+      font-weight: 700;
+    }
+
+    .conclusion-box::before {
+      content: "📝 Kesimpulan: ";
+      font-weight: 800;
+      color: var(--accent-green);
+      display: block;
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+    }
+
+    .code-container {
+      margin: 30px 0;
+      background: var(--code-bg);
+      border: 2px dashed var(--border-color);
+      border-radius: 25px;
+      overflow: hidden;
+      width: 100%;
+    }
+
+    .code-header {
+      background: #dadfcb;
+      padding: 12px 25px;
+      font-weight: 700;
+      font-size: 0.8rem;
+      color: var(--accent-green);
+      border-bottom: 1px solid var(--border-color);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .lang {
+      font-size: 0.8rem;
+      font-family: monospace;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 18px;
+      border: none;
+      border-radius: 50px;
+      background: linear-gradient(135deg, var(--accent-moss), var(--accent-green));
+      color: white;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: 0.3s;
+      box-shadow: 0 4px 10px rgba(45, 94, 44, 0.3);
+      gap: 6px;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(45, 94, 44, 0.5);
+      background: linear-gradient(135deg, #1f461e, var(--accent-moss));
+    }
+
+    pre {
+      padding: 25px;
+      overflow-x: auto;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.85rem;
+      line-height: 1.6;
+      color: #2c4027;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--accent-earth);
+      font-weight: 600;
+      font-size: 1rem;
+      margin-top: 100px;
+      border-top: 2px solid var(--border-color);
+      background: rgba(225, 215, 185, 0.4);
+      backdrop-filter: blur(8px);
+      border-radius: 48px 48px 0 0;
+    }
+
+    /* Modal Styles */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(46, 56, 38, 0.92);
+      backdrop-filter: blur(12px);
+      z-index: 10000;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    .modal-content {
+      width: 90%;
+      max-width: 1100px;
+      height: 85vh;
+      background: transparent;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .modal-body {
+      width: 100%;
+      height: 100%;
+      display: flex;
+    }
+
+    .modal-body iframe {
+      width: 100%;
+      height: 100%;
+      border: 5px solid #8b7a54;
+      border-radius: 40px;
+      box-shadow: 0 0 50px rgba(60, 70, 40, 0.5);
+    }
+
+    .close-modal {
+      position: absolute;
+      right: -10px;
+      top: -60px;
+      font-size: 45px;
+      color: #e3d6b5;
+      cursor: pointer;
+      z-index: 1001;
+      font-weight: 900;
+      background: transparent;
+      border: none;
+      text-shadow: 0 2px 4px #2d2b1f;
+    }
+
+    @media (max-width: 768px) {
+      .container { margin: 20px auto; padding: 0 10px; }
+      header { margin-bottom: 40px; }
+      .session-title { margin-bottom: 40px; font-size: 1.2rem; padding: 8px 20px; }
+      .cyber-card { padding: 20px; margin-bottom: 30px; border-radius: 30px; }
+      .cyber-card::before { font-size: 1.6rem; left: 20px; }
+      h3 { font-size: 1.2rem; }
+      .badge { margin-left: 0; }
+      .code-header { flex-direction: column; align-items: stretch; }
+      .btn { width: 100%; justify-content: center; }
+      pre { padding: 15px; font-size: 0.7rem; }
+      .modal-content { height: 75vh; width: 95%; }
+      .close-modal { top: -45px; right: 0px; font-size: 35px; }
+      .conclusion-box { padding: 14px 16px; font-size: 0.85rem; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="mist"></div>
+  <div class="container">
+    <header>
+      <div class="gerakan">M.ALGERIJA HERTYAZ PASLAM</div>
+      <div class="info-bar">NIM: <b>251410021</b> // KELAS: <b>SI2A</b></div>
+      <h1 class="session-title">TUGAS PAK ADRIYUDI 10: <span>FACTORY CONSTRUCTORS</span></h1>
+    </header>
+
+    <!-- LATIHAN 1 -->
+    <div class="cyber-card">
+      <h3><span>01</span> LATIHAN 1: CONNECTION POOLING <div class="badge badge-dartpad">Dartpad</div>
+      </h3>
+      <p>Menghemat alokasi memori melalui pola **Database Connection Pooling** menggunakan Factory Constructor. Jumlah
+        koneksi aktif dibatasi maksimal 3 koneksi, dan koneksi yang telah dilepas (*idle*) akan secara otomatis
+        dimanfaatkan kembali. — Tema gunung mengilhami ketahanan dan efisiensi layaknya aliran sungai di pegunungan.</p>
+      <div class="conclusion-box">
+        <strong>Kesimpulan Latihan 1:</strong> Factory constructor pada koneksi database mampu mengelola resource secara optimal dengan reuse objek idle, mencegah overload dan pemborosan memori. Mekanisme pool membatasi jumlah koneksi aktif, memastikan stabilitas aplikasi seperti sistem alami pegunungan yang menjaga keseimbangan.
+      </div>
+      <div class="code-container">
+        <div class="code-header"><span class="lang">FILE: libconnection_factory.dart</span></div>
+        <pre><code>class ConnectionFactory {
+  final String id;
+  final String dbName;
+  final String host;
+  final int port;
+  bool isReleased = true;
+
+  static const int maxConnections = 3;
+  static final Map<String, List<ConnectionFactory>> _poolRegistry = {};
+
+  ConnectionFactory._(this.id, this.dbName, this.host, this.port);
+
+  factory ConnectionFactory(String dbName, {String host = 'localhost', int port = 5432}) {
+    final key = '${dbName.toLowerCase()}@$host:$port';
+    if (!_poolRegistry.containsKey(key)) _poolRegistry[key] = [];
+    final connList = _poolRegistry[key]!;
+    for (var conn in connList) {
+      if (conn.isReleased) {
+        conn.isReleased = false;
+        print('🏔️ [Pool Hit] Reusing idle connection: ${conn.id} for $key');
+        return conn;
+      }
+    }
+    if (connList.length < maxConnections) {
+      final connIdentifier = 'conn_${dbName.toLowerCase()}_${connList.length + 1}';
+      final newConnection = ConnectionFactory._(connIdentifier, dbName, host, port);
+      newConnection.isReleased = false;
+      connList.add(newConnection);
+      print('🌲 [Pool Miss] Created new connection: $connIdentifier untuk $key');
+      return newConnection;
+    }
+    throw StateError('⛰️ Batas maksimum koneksi database tercapai ($maxConnections)');
+  }
+  void query(String sql) { /* ... */ }
+  static void release(ConnectionFactory conn) { /* ... */ }
+}</code></pre>
+      </div>
+      <div class="code-container" id="code-connection-factory">
+        <div class="code-header">
+          <span class="lang">FILE: test_connection_factory.dart</span>
+          <button class="btn" onclick="runCode('code-connection-factory', '2d4e17e7b8467531adc3b17021e4013e')">▶ Run</button>
+        </div>
+        <pre><code>// Nama   : M.ALGERIJA HERTYAZ PASLAM | NIM:251410021 | Kelas:SI2A
+import 'libconnection_factory.dart';
+void main() {
+  print('📌 DEMO POOL KONEKSI - ALGERIJA 📌');
+  final dbConn1 = ConnectionFactory('testdb');
+  dbConn1.query('SELECT * FROM users');
+  final dbConn2 = ConnectionFactory('testdb');
+  dbConn2.query('SELECT * FROM products');
+  ConnectionFactory.release(dbConn1);
+  final dbConn3 = ConnectionFactory('testdb');
+  dbConn3.query('SELECT * FROM logs');
+  print('Apakah reuse? \${identical(dbConn1, dbConn3)}');
+}</code></pre>
+      </div>
+    </div>
+
+    <!-- LATIHAN 2 -->
+    <div class="cyber-card">
+      <h3><span>02</span> LATIHAN 2: PLATFORM NOTIFICATION SELECTOR <div class="badge badge-dartpad">Dartpad</div>
+      </h3>
+      <p>Menerapkan **Subclass Selection** melalui Factory Constructor. Klien memanggil satu interface terpadu,
+        sedangkan factory constructor secara dinamis mengembalikan instansi subclass yang spesifik (FCM, APNS, WebPush,
+        WNS) sesuai platform target. Gemuruh notifikasi menggema seperti panggilan di lembah.</p>
+      <div class="conclusion-box">
+        <strong>Kesimpulan Latihan 2:</strong> Factory constructor memungkinkan pemilihan subclass secara dinamis berdasarkan parameter input (platform). Pola ini menyembunyikan kompleksitas pembuatan objek spesifik dari klien, meningkatkan fleksibilitas dan pemeliharaan kode. Setiap platform mendapatkan implementasi notifikasi yang tepat tanpa mengubah kode pemanggil.
+      </div>
+      <div class="code-container" id="code-notification-factory">
+        <div class="code-header">
+          <span class="lang">FILE: test_notification_factory.dart</span>
+          <button class="btn" onclick="runCode('code-notification-factory', '09b6496c25ab1662c113836297b35222')">▶ Run</button>
+        </div>
+        <pre><code>// Nama: M.ALGERIJA HERTYAZ PASLAM | NIM:251410021 | SI2A
+import 'libnotification_factory.dart';
+void main() {
+  final android = NotificationFactory('android', 'Peringatan longsor');
+  android.send();
+  final ios = NotificationFactory('ios', 'Cuaca ekstrem di puncak');
+  ios.send();
+}</code></pre>
+      </div>
+    </div>
+
+    <!-- LATIHAN 3 -->
+    <div class="cyber-card">
+      <h3><span>03</span> LATIHAN 3: SHAPE CACHING (FLYWEIGHT) <div class="badge badge-dartpad">Dartpad</div>
+      </h3>
+      <p>Menerapkan **Flyweight Pattern** melalui caching bentuk. Apabila dipanggil instansi dengan tipe, ukuran, dan warna yang sama persis, sistem akan mengambil dari cache. Seperti formasi batuan yang khas di pegunungan.</p>
+      <div class="conclusion-box">
+        <strong>Kesimpulan Latihan 3:</strong> Dengan memanfaatkan factory constructor dan cache statis, objek yang identik tidak diciptakan berulang kali. Pola flyweight menghemat memori secara signifikan saat banyak objek serupa digunakan, meningkatkan performa aplikasi. Cache key yang unik (type+size+color) menjamin reuse tepat sasaran.
+      </div>
+      <div class="code-container" id="code-shape-factory">
+        <div class="code-header">
+          <span class="lang">FILE: test_shape_factory.dart</span>
+          <button class="btn" onclick="runCode('code-shape-factory', '09b6496c25ab1662c113836297b35222')">▶ Run</button>
+        </div>
+        <pre><code>// Nama: M.ALGERIJA HERTYAZ PASLAM | NIM:251410021 | SI2A
+import 'libshape_factory.dart';
+void main() {
+  final s1 = ShapeFactory('circle', 10.0, 'Hijau');
+  final s2 = ShapeFactory('circle', 10.0, 'Hijau');
+  print('Cache bekerja: objek sama? \${identical(s1, s2)}');
+  print('Jumlah unik di cache: \${ShapeFactory.cacheSize}');
+}</code></pre>
+      </div>
+    </div>
+
+    <!-- CHALLENGE -->
+    <div class="cyber-card">
+      <h3><span>04</span> CHALLENGE: ANIMAL FACTORY <div class="badge badge-dartpad">Challenge</div>
+      </h3>
+      <p>Mengintegrasikan konsep Factory Constructor ke dalam `AnimalFactory` dengan caching dinamis serta validasi ketat. Fauna pegunungan (serigala, elang, kucing hutan) sebagai inspirasi.</p>
+      <div class="conclusion-box">
+        <strong>Kesimpulan Challenge:</strong> Challenge ini menggabungkan semua konsep: validasi input, subclass selection, dan caching flyweight. Factory constructor menjadi pattern serbaguna untuk mengelola pembuatan objek yang kompleks sekaligus optimal. Penerapan ini membuktikan bahwa factory constructor di Dart sangat powerful untuk arsitektur yang scalable dan efisien.
+      </div>
+      <div class="code-container" id="code-animal-factory">
+        <div class="code-header">
+          <span class="lang">FILE: test_animal_factory.dart</span>
+          <button class="btn" onclick="runCode('code-animal-factory', '3167a5fdb0c8398076c269ad2ad5e692')">▶ Run</button>
+        </div>
+        <pre><code>// Nama: M.ALGERIJA HERTYAZ PASLAM | NIM:251410021 | SI2A
+import 'libanimal_factory.dart';
+void main() {
+  final a1 = AnimalFactory('dog', 'Rimba', 3);
+  final a2 = AnimalFactory('dog', 'Rimba', 3);
+  print('Cache animal: \${identical(a1, a2)}');
+  final a3 = AnimalFactory('cat', 'Lembang', 2);
+  a3.speak();
+}</code></pre>
+      </div>
+    </div>
+
+    <!-- KESIMPULAN AKHIR (RINGKASAN SEMUA MATERI) -->
+    <div class="cyber-card" style="background: #e2dcc8;">
+      <h3><span>🏁</span> KESIMPULAN AKHIR PRAKTIKUM <div class="badge badge-dartpad">Refleksi</div></h3>
+      <p>Berdasarkan implementasi keempat latihan (Connection Pooling, Notification Selector, Shape Caching, Animal Factory) dengan tema GUNUNG, dapat ditarik beberapa kesimpulan utama mengenai Factory Constructor di bahasa pemrograman Dart:</p>
+      <div class="conclusion-box" style="background:#f5f0e0; border-left-color: #5e3a1c;">
+        <strong>📌 Ringkasan Materi Factory Constructor:</strong><br/>
+        1. <strong>Pooling & Resource Management:</strong> Factory memungkinkan pengelolaan instance terbatas (connection pool) dengan memeriksa objek idle sebelum membuat yang baru, mencegah resource leak.<br/>
+        2. <strong>Subclass Selection Dinamis:</strong> Factory dapat mengembalikan berbagai tipe turunan berdasarkan parameter runtime tanpa mengubah kode klien (polimorfisme alami).<br/>
+        3. <strong>Flyweight / Caching:</strong> Dengan cache statis internal, factory menghindari duplikasi objek identik, menghemat memori dan mempercepat eksekusi.<br/>
+        4. <strong>Validasi Terpusat:</strong> Semua logika validasi (umur negatif, nama kosong, dll) dapat dipusatkan di factory, memastikan objek yang terbentuk selalu dalam keadaan valid.<br/>
+        5. <strong>Fleksibilitas & Maintainability:</strong> Perubahan cara pembuatan objek cukup di dalam factory tanpa mengganggu seluruh basis kode yang menggunakan factory tersebut.<br/><br/>
+        🏔️ <strong>Kesimpulan Akhir:</strong> Factory Constructor di Dart adalah pattern yang sangat esensial untuk membangun sistem yang robust, hemat memori, mudah dikembangkan, dan sesuai dengan prinsip OOP (Open/Closed, Single Responsibility). Dengan tema gunung, kita belajar bahwa seperti ekosistem pegunungan yang efisien, factory constructor mengatur "siklus hidup" objek secara optimal.
+      </div>
+    </div>
+
+    <div class="footer">
+      🏔️ 2026 // M.ALGERIJA HERTYAZ PASLAM // 251410021 // SI2A // SESI 10 - FACTORY CONSTRUCTORS 🏔️
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="codeModal" onclick="if(event.target === this) closeModal()">
+    <div class="modal-content">
+      <button class="close-modal" onclick="closeModal()">&times;</button>
+      <div class="modal-body" id="modalIframeContainer"></div>
+    </div>
+  </div>
+
+  <script>
+    function runCode(id, gistId = null) {
+      const modal = document.getElementById('codeModal');
+      const iframeContainer = document.getElementById('modalIframeContainer');
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      let iframe = document.createElement('iframe');
+      if (gistId) {
+        iframe.src = `https://dartpad.dev/embed-inline.html?theme=dark&run=true&id=${gistId}`;
+      } else {
+        const code = document.getElementById(id).querySelector('code').innerText;
+        const encodedCode = encodeURIComponent(code);
+        iframe.src = `https://dartpad.dev/embed-inline.html?theme=dark&run=true&code=${encodedCode}`;
+      }
+      iframeContainer.innerHTML = '';
+      iframeContainer.appendChild(iframe);
+    }
+
+    function closeModal() {
+      document.getElementById('codeModal').classList.remove('active');
+      document.body.style.overflow = '';
+      document.getElementById('modalIframeContainer').innerHTML = '';
+    }
+
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.onkeydown = function (e) {
+      if (e.keyCode == 123) return false;
+      if (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74 || e.keyCode == 67)) return false;
+      if (e.ctrlKey && e.keyCode == 85) return false;
+      if (e.ctrlKey && e.keyCode == 83) return false;
+    };
+    document.onselectstart = function () { return false; };
+  </script>
+</body>
+
+</html>
